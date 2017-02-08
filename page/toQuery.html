@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+				height: 100%;
+				width: 100%;
+			}
+			
+			#letterNo {
+				border-radius: 5px;
+			}
+			
+			#submitButton {
+				width: 90%;
+				margin: auto;
+				background-color: #F2473D;
+				color: #FFFFFF;
+				height: 45px;
+				font-size: 18px;
+                line-height: 2.10;
+				border: 0px solid #F2473D;
+                border-radius: 5px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white;">
+		<div class="mui-content" style="padding: 30px 15px 15px 15px;text-align: center;background-color: white;">
+			<div class="mui-input-row" style="width: 90%;margin: auto;">
+				<input id="mailNum" type="text" placeholder="请输入信件编号" class="required" value="" style="background-color: #EAEAEA;border: 0px solid rgba(0,0,0,.2);border-radius: 5px;">
+			</div>
+			<div class="mui-input-row" style="width: 90%;margin: auto;">
+				<input id="queryNum" type="text" placeholder="请输入查询码" class="required" value="" style="background-color: #EAEAEA;border: 0px solid rgba(0,0,0,.2);border-radius: 5px;">
+			</div>
+			<a id="submitButton" class="mui-btn" style="">查询</a>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-3.0.0.min.js"></script>
+	<script src="../js/jquery.json.js"></script>
+	<script src="../js/jquery.md5.js"></script>
+	<script src="../js/base64.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/commonUtil.js"></script>
+	<script src="../js/base64Utf8.js"></script>
+	<script>
+		mui.init();
+		/**
+		 * P20160720002 6255 GDP20160801003 6654
+		 * 
+		 */
+		var ifSub = true; //是否可以提交
+		$(function() {
+			//右上角搜索按钮
+			document.getElementById('submitButton').addEventListener('tap', function() {
+				var mailNum = document.getElementById("mailNum").value.toUpperCase();//转大写
+				var queryNum = document.getElementById("queryNum").value;
+				if(mailNum.length < 1) {
+					mui.toast("请输入信件编号");
+					return false;
+				}
+				if(queryNum.length < 1) {
+					mui.toast("请输入查询码");
+					return false;
+				}
+				//
+				if(ifSub) {
+					ifSub = false;
+					var pid = "140"; //编号
+					var dt = {
+						'mailNum': mailNum,
+						'queryNum': queryNum
+					}
+					commonUtil.sendJson(pid, dt, '', function(data) {
+						ifSub = true;
+						console.log("返回的json：" + JSON.stringify(data));
+						if(JSON.stringify(data) != '{}') {
+							if(is_weixin()) {//判断是否是微信访问
+								console.log("微信");
+								mui.openWindow({
+										url: "../page/letterSearch/letter-detail-weixin.html?mailNum="+mailNum+"&queryNum="+queryNum,
+										id: "letter-detail",
+										show: {
+											aniShow: 'slide-in-right',
+											duration: 300
+										},
+										extras: {
+											'data': data
+											,'mailNum': mailNum,
+						                    'queryNum': queryNum
+										} //额外扩展参数
+									});
+							} else {
+								var letterDetail = plus.webview.getWebviewById("letter-detail");
+								if(letterDetail != null) {
+									mui.openWindow({
+										id: "letter-detail",
+										show: {
+											aniShow: 'slide-in-right',
+											duration: 300
+										},
+										extras: {
+											'data': data
+											,'mailNum': mailNum,
+						                    'queryNum': queryNum
+										} //额外扩展参数
+									});
+								} else {
+									mui.openWindow({
+										url: "../page/letterSearch/letter-detail.html",
+										id: "letter-detail",
+										show: {
+											aniShow: 'slide-in-right',
+											duration: 300
+										},
+										extras: {
+											'data': data
+											,'mailNum': mailNum,
+						                    'queryNum': queryNum
+										} //额外扩展参数
+									});
+								}
+							}
+
+						} else {
+							mui.toast("没有查询到信件，请检查信件编号和查询码。");
+						}
+					});
+				}
+			});
+
+		});
+	</script>
+
+</html>

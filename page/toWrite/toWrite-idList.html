@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+				background-color: #fff;
+			}
+			.mui-content:first-of-type{
+				background-color: #FFFFFF;
+			}
+			.mui-content form:first-of-type{
+				padding: 15px 10px;
+			}
+			.mui-content span:first-of-type{
+				display: inline-block;
+				color: #999;
+				padding: 20px 10px 10px 20px;
+			}
+			.mui-radio input[type=radio]:checked:before{
+				content: '\e442';
+				
+			}
+			.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{
+				color: #F2473D;	
+			}
+			#idListContainer form .mui-input-group .mui-input-row:after{
+				background-color: #eee;
+			}
+			#idListContainer form{
+				border: none;
+			}
+			#idListContainer .mui-input-group:after{
+				left: 15px;
+			}
+			.mui-input-group:before,.mui-input-group:after{
+				height: 0;
+			}
+			label{
+				color: #333;
+			}
+			.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+				color: #c6c6c6;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<span>请选择证件类型</span>
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-radio">
+					<label data-id = "1">身份证</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label data-id = "1">居住证</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label data-id="2">军官证</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label data-id="3">士兵证</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label data-id="4">警官证</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label data-id="5">港澳台居民身份证</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label data-id="6">护照</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label data-id="7">户口簿</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label data-id="99">其他证件</label>
+					<input name="radio1" type="radio">
+				</div>
+			</form>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.0.0.min.js" ></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			var opener;
+			mui.plusReady(function(){
+				opener = plus.webview.currentWebview().opener();
+				onClick(muiFire);
+			});
+			function onClick(callback){
+				mui('.mui-input-group').on('tap','label,input',function(e){
+					var data = {};
+					if(this.tagName =='LABEL'){
+						data.labelText = this.innerText;
+					}else{
+						data.labelText = this.previousElementSibling.innerText;
+					}
+					data.labelID = this.dataset.id;
+					console.log(JSON.stringify(data));
+					return callback(data);
+				});
+			}
+			function muiFire(data){
+				console.log('fire--'+JSON.stringify(data));
+				mui.fire(opener,'closeMenu',{
+					id:data
+				})
+			}
+		</script>
+	</body>
+
+</html>

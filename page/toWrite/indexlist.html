@@ -1,0 +1,252 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.indexedlist.css" rel="stylesheet" /> 
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none; 
+			}
+			
+			#done.mui-disabled {
+				color: gray;
+			}
+			#resultContainer{
+				padding: 10px 15px;
+				height: 40px;
+				background-color: #FFFFFF;
+				color: #999999;
+			}
+			#resultContainer span{
+				padding-right: 10px;
+			}
+			.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+				color: #c6c6c6;
+			}
+			#list{
+				border-top: none;
+			}
+			#list .mui-indexed-list-search.mui-input-row.mui-search{
+				padding-top: 0px;
+				padding-bottom: 10px;
+				padding-left: 15px;
+				padding-right: 15px;
+				background-color: #FFFFFF;
+			}
+			#list .mui-indexed-list-search input {
+				background-color: #f1f1f1;
+				padding-top: 5px;
+				padding-bottom: 5px;
+			}
+			.mui-indexed-list-bar{
+				background-color: transparent;
+			}
+			.mui-indexed-list-bar a,.mui-indexed-list-bar.active a{
+				color: #F2473D;
+			}
+			.mui-indexed-list-alert{
+				border-radius: 0;
+			}
+			#dependencyUL{
+				color: #333;
+			}
+			.mui-table-view-cell{
+				color: #333333;
+			}
+			.mui-table-view-cell:after,.mui-table-view:after{
+				background-color: #eee;
+			}
+			.mui-content.p-toWrite-Box .mui-table-view-cell:after{
+				left: 0;
+			}
+			.mui-table-view-divider:after,.mui-table-view-divider:before,.mui-table-view:before{
+				height: 0;
+				background-color: transparent;
+			}
+			.mui-indexed-list-search{
+				border: none;
+			}
+			input{
+				text-shadow: inherit;
+			}
+			.mui-indexed-list-bar{
+				background-color: white;
+			}
+		</style>
+	</head>
+		
+	<body>
+		<div id="resultContainer">
+			<span id="currentArea">省份</span>
+		</div>
+		<div id="mainBox" class="mui-content"></div>
+	</body>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.0.0.min.js" ></script>
+		<script type="text/javascript" src="../../js/mui.indexedlist.js" ></script>
+		<script type="text/javascript" src="../../js/common.js" ></script>
+		<script type="text/javascript" src="../../js/jquery.json.js" ></script>
+		<script type="text/javascript" src="../../js/jquery.md5.js" ></script>
+		<script type="text/javascript" src="../../js/commonUtil.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			var box = $('.mui-content');
+			var url = "http://116.22.58.169:8865/mess/app/gdwsxf.jsp";
+			var provincePID = '123',cityPID = '122',districtPID = '124';
+			var provinceOn = false,cityOn = false,districtOn = false;
+			var deviceHeight = (document.body.offsetHeight-44)+'px';
+			//获取opener对象
+			var opener,self;
+			mui.plusReady(function(){
+				opener = plus.webview.currentWebview().opener();
+				self = plus.webview.currentWebview();
+			});
+			window.addEventListener('queryPersonAddress',function(){
+				clearBox();
+				var defaultData = {
+					type:''
+				}
+				commonUtil.createIndexedList(box,provincePID,url,defaultData,deviceHeight);//获取省数据
+				provinceOn = true;
+				onPersonAddressPick();
+			})
+			mui.ready(function(){
+				
+			});
+			function onPersonAddressPick(){
+				var pickData = {P:'',C:'',D:''};
+				mui('body').on('tap','li',function(){
+					if(this.dataset.group) return;  //如果点击的是分组li，则无不进行任何操作
+					var data ={},pid;
+					var areaCode = this.dataset.value;
+					var areaName = this.innerText;
+					var areaHolder = document.getElementById('currentArea');
+					console.log('当前选择的是--'+areaName+'--code==='+this.dataset.value);
+					if(provinceOn){
+						pickData.P = areaHolder.innerText = areaName;
+						if(areaName == '台湾省' || areaName =='香港特别行政区' || areaName =='澳门特别行政区'){ //如果是澳门
+							passDataToOpener(pickData);
+							return;
+						}
+						data = {
+							type:'city',
+							data:areaCode
+						}
+						pid = cityPID;
+						provinceOn = false;
+						cityOn = true;
+					}else if(cityOn){
+						pickData.C = areaName;
+						areaHolder.innerText = areaName;
+						if(areaName == '东莞市' || areaName == '中山市'){
+							passDataToOpener(pickData);
+							return;
+						}
+						data = {  
+							type:'district',
+							data:areaCode
+						}
+						areaHolder = '';
+						pid = districtPID;
+						cityOn = false;
+						districtOn = true;
+					}else if(districtOn){
+						pickData.D = areaName;
+						passDataToOpener(pickData);
+						districtOn = false;
+						return;
+					}else{
+						return;
+					}
+					//清空列表，重新生成
+					clearBox();
+					commonUtil.createIndexedList(box,pid,url,data,deviceHeight);//获取市数据
+				});
+			}
+			
+			function passDataToOpener(addressTextData,type){
+				if(!type){
+					var data = {
+						area:addressTextData.P+addressTextData.C+addressTextData.D
+					}
+				}else{
+					var data = {
+						issueArea:'广东省' + addressTextData.C+addressTextData.D
+					}					
+				}
+				console.log('问题属地---'+JSON.stringify(addressTextData));
+				mui('body').off('tap','li');
+				mui.fire(opener,'closeMenu',data);
+//				setTimeout(function(){
+//					self.reload(); 
+//				},100);
+				
+			}
+			function clearBox(){
+				$('#mainBox').empty();
+				if (!('remove' in Element.prototype)) { //如果没有remove就添加remove
+				    Element.prototype.remove = function() {
+				        this.parentNode.removeChild(this);
+				    };
+				}
+				if(!mui.os.android){
+					if($(document).find('style')[1]) $(document).find('style')[1].remove();
+				}else{
+					if(document.querySelectorAll('style')[1]) document.querySelectorAll('style')[1].remove();
+				}
+				
+			}
+			var issueCityOn = false,issueDistrictOn = false;
+			window.addEventListener('queryIssueLocation',function(){ //监听问题属地按钮
+				var data = {
+					type:'city',
+					data:'8a81c4ca49cad5300149cb72f9106ead'
+				}
+				var pid = '122'; 
+				clearBox();
+				commonUtil.createIndexedList(box,pid,url,data,deviceHeight);//获取广东省数据
+				issueCityOn = true;
+				onIssueLocationClick();
+			});
+			function onIssueLocationClick(){
+				var pickIssueData = {P:'',C:'',D:''};
+				mui('body').on('tap','li',function(){
+					if(this.dataset.group) return;  //如果点击的是分组li，则无不进行任何操作
+					var issueCity = this.innerText;
+					var issueCityCode = this.dataset.value;
+					if(issueCityOn){
+						pickIssueData.C = issueCity;
+						if(issueCity == '东莞市' || issueCity == '中山市'){
+							passDataToOpener(pickIssueData,'issueLocation');
+							return;
+						}
+						var data ={
+							type:'district',
+							data:issueCityCode
+						}
+						var portId = '124';
+						issueCityOn = false;
+						issueDistrictOn = true;
+					} else if(issueDistrictOn){
+						pickIssueData.D = issueCity;
+						passDataToOpener(pickIssueData,'issueLocation');
+						issueDistrictOn = false;
+						return;
+					}
+					clearBox();
+					commonUtil.createIndexedList(box,portId,url,data,deviceHeight);//获取数据
+				});
+			}
+		</script>
+</html>

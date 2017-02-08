@@ -1,0 +1,1239 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我要写信</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/common.css" />
+		<link href="../../css/mui.indexedlist.css" rel="stylesheet" /> 
+		<style>
+			body,
+			html {
+				height: 100%;
+				overflow: auto;
+				/*position: relative;*/
+			}
+			
+			.mui-control-content {
+				height: 100%;
+				/*min-height: 150px;*/
+			}
+			
+			#item2 ul li:nth-child(3) {
+				padding: 0;
+			}
+			
+			#item2 ul li:nth-child(4) {
+				padding: 0;
+				min-height: 60px;
+			}
+			
+			#item2 ul li textarea {
+				margin: 0;
+				border: none;
+			}
+			
+			.mui-btn-block {
+				margin-top: 10px;
+				padding: 12px 0;
+			}
+			
+			ul li a .mui-pull-right {
+				padding-right: 25px;
+			}
+			
+			#verificationCode {
+				display: inline-block;
+				border: 4px solid #999999;
+				padding: 8px 10px;
+				border-radius: 12px;
+				font-size: 30px;
+				color: #999999;
+			}
+			
+			#verificationCode span {
+				display: inline-block;
+			}
+			
+			#verificationInput {
+				border: none;
+				margin: 0;
+				padding: 0;
+				width: 45%;
+				padding-left: 10px;
+				height: 40px;
+				font-size: 20px;
+			}
+			
+			#photoMask {
+				position: fixed;
+				left: 0;
+				top: 0;
+				height: 100%;
+				width: 100%;
+				background-color: #555555;
+				opacity: 0.6;
+				-webkit-opacity: 0.6;
+				-moz-opacity: 0.6;
+				z-index: 20;
+			}
+			
+			#photoChoiceList {
+				position: absolute;
+				z-index: 21;
+				width: 70%;
+				margin: auto;
+				-webkit-margin: auto;
+				top: 30%;
+				left: 0;
+				right: 0;
+				border-radius: 10px;
+			}
+			
+			#photoChoiceList:before {
+				height: 0;
+			}
+			
+			#photoChoiceList:after {
+				height: 0;
+			}
+			
+			#photoChoiceList .mui-table-view-cell:first-of-type:after {
+				left: 0;
+			}
+			
+			#photoChoiceList .mui-table-view-cell.mui-active {
+				border-radius: 10px;
+			}
+			
+			.hide {
+				display: none;
+			}
+			
+			.mui-control-item.mui-disabled {
+				color: #999999!important;
+			}
+			#nextButton,
+			#saveInfo {
+				background-color: #F2473D;
+				color: #FFFFFF;
+				width: 90%;
+				margin: auto;
+			}
+			
+			.p-toWrite-Box {
+				overflow: scroll;
+				height: 100%;
+			}
+			
+			.mui-icon.mui-icon-camera.mui-pull-right.p-input-span {
+				text-align: end;
+			}
+			
+			#area span:last-of-type,
+			#idType span:last-of-type,
+			#issueArea span:last-of-type {
+				width: auto;
+			}
+			
+			.p-pick-li {
+				padding: 20px 15px;
+			}
+			input{
+				color: #666;
+			}
+			#vfcBox{
+				margin-bottom: 15px;
+			}
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none; 
+			}
+			
+			#done.mui-disabled {
+				color: gray;
+			}
+			#resultContainer{
+				padding: 10px 15px;
+				height: 45px;
+				background-color: #FFFFFF;
+				color: #999999;
+			}
+			#resultContainer span{
+				padding-right: 10px;
+			}
+			#idListContainer{
+				height: 100%;
+				background-color: #FFFFFF;
+				color: #333;	
+			}
+			#idListContainer span:first-of-type{
+				padding: 10px 15px;
+				display: inline-block;
+				color: #c8c8cd;
+			}
+			.mui-content form:first-of-type{
+				padding: 15px 10px;
+			}
+			.mui-radio input[type=radio]:checked:before{
+				content: '\e442';
+			}
+			.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{
+				color: #F2473D;	
+			}
+			#bigAddress{
+				max-width: 70%;
+				overflow: hidden;
+				word-break: normal;
+				word-wrap: break-word;
+				white-space: pre-wrap;
+			}
+			textarea{
+				color: #666;
+				border: none;
+			}
+			#flashNote{
+				padding: 10px 15px;
+				display: block;
+				margin: auto;
+				position: absolute;
+				top: 40%;
+				background-color: #999;
+				color: #FFFFFF;
+				left: 0;
+				right: 0;
+				width: 50%;
+				text-align: center;
+				border-radius: 5px;
+				z-index: 10;
+			}
+			.mui-table-view-divider:after,.mui-table-view-divider:before,.mui-table-view:before{
+				height: 0;
+				background-color: transparent;
+			}
+			.mui-indexed-list-search{
+				border: none;
+			}
+			input{
+				text-shadow: inherit;
+			}
+			.warning{
+				color: #F2473D!important;
+			}
+			.textShadow{
+				filter: blur(5px);
+				transition: filter 1s ease;
+			}
+			.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+				color: #c6c6c6;
+			}
+			#list{
+				border-top: none;
+			}
+			#list .mui-indexed-list-search.mui-input-row.mui-search{
+				padding-top: 0px;
+				padding-bottom: 10px;
+				padding-left: 15px;
+				padding-right: 15px;
+				background-color: #FFFFFF;
+			}
+			#list .mui-indexed-list-search input {
+				background-color: #f1f1f1;
+				padding-top: 5px;
+				padding-bottom: 5px;
+			}
+			.mui-indexed-list-bar{
+				background-color: transparent;
+			}
+			.mui-indexed-list-bar a,.mui-indexed-list-bar.active a{
+				color: #F2473D;
+			}
+			.mui-indexed-list-alert{
+				border-radius: 0;
+			}
+			#dependencyUL{
+				color: #333;
+			}
+			.mui-table-view-cell{
+				color: #333333;
+			}
+			.mui-table-view-cell:after,.mui-table-view:after{
+				background-color: #eee;
+			}
+			.mui-content.p-toWrite-Box .mui-table-view-cell:after{
+				left: 0;
+			}
+			#idListContainer form .mui-input-group .mui-input-row:after{
+				background-color: #eee;
+			}
+			#idListContainer form{
+				border: none;
+			}
+			#idListContainer .mui-input-group:before{
+				height: 0;
+			}
+			#idListContainer .mui-input-group:after{
+				left: 15px;
+			}
+			input{
+				font-family: "微软雅黑";
+			}
+			textarea{
+				font-family: "微软雅黑";
+			}
+			#petitionDetail{
+				max-height: 400px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style="padding-top: 0px;height: 100%;" id="offCanvasWrapper" class="mui-off-canvas-wrap">
+			<aside id="offCanvasSide" class="mui-off-canvas-right">
+				<!--<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+					</div>
+				</div>-->
+			</aside>
+			<div class="mui-inner-wrap">
+			<div class="mui-content p-toWrite-Box" style="padding-top: 0;overflow: scroll;">
+				<div style="padding: 0px 10px 0px 10px;margin-bottom: 10px;background-color: #FFFFFF;">
+					<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted">
+						<a class="mui-control-item mui-active" href="#item1" style="color: #333;">
+							基本信息
+						</a>
+						<a class="mui-control-item" href="#item2" style="color: #333;">
+							事项信息
+						</a>
+					</div>
+				</div>
+				<div id="item1" class="mui-control-content mui-active">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<span class="p-input-span">姓&nbsp;&nbsp;名</span>
+							<input onkeyup="var r = new RegExp(/^([\u4e00-\u9fa5]+|([a-zA-Z]+\s?)+)$/);if(!r.test(value)){mui.toast('请输入中文姓名');value = value.substring(0,value.length-1)}" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\d]/g,''))" maxlength=10 class="p-toWrite-input" id="name" type="text" name="name" />
+						</li>
+						<li class="mui-table-view-cell">
+							<span class="p-input-span" style="width: 24%!important;">手机号码</span>
+							<input type="button" value="发送验证码" id="btnSendPhoneCode" style="float: right;"  />
+							<input class="p-toWrite-input" id="telephoneNum" type="number" name="phoneNum" maxlength="11" onfocusout="var r = new RegExp(/^1[0-9]{10}$/);if(!r.test(value)){mui.toast('请输入正确的手机号码');this.parentElement.classList.add('warning')}else{this.parentElement.classList.remove('warning')}" style="width: 40%!important;padding-left:0px!important;"/>
+						</li>
+						<li class="mui-table-view-cell">
+							<span class="p-input-span">手机验证码 </span>
+							<input class="p-toWrite-input" id="verifyCode" type="number" onkeydown="setMaxNumberInput(this,4)" onkeyup="setMaxNumberInput(this,4)" name="verifyCode" maxlength="4" onfocusout="var r = new RegExp(/^\d{4}$/);if(!r.test(value)){mui.toast('请输入4位手机验证码');this.parentElement.classList.add('warning')}else{this.parentElement.classList.remove('warning')} "  />
+						<li class="mui-table-view-cell">
+							<span class="p-input-span">信访人数</span>
+							<input class="p-toWrite-input" id="numberOfPeo" type="number" name="numberOfPetitionPeople" onkeydown="setMaxNumberInput(this,5)" onkeyup="setMaxNumberInput(this,5)"/>
+						</li>
+						<li class="mui-table-view-cell">
+							<a id="idType" class="mui-navigate-right">
+								<span class="p-input-span">证件类型</span>
+								<span id="documentType" class="p-input-span mui-pull-right" style="color: #666;"><span style="color: #c8c8cd;">请选择</span></span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<span class="p-input-span">证件号码</span>
+							<input class="p-toWrite-input" id="documentNum" type="text" name="documentNumber" maxlength="20" />
+						</li>
+						<li class="mui-table-view-cell">
+							<a id="area" class="mui-navigate-right">
+								<span class="p-input-span">省市区</span>
+								<span id="bigAddress" class="mui-pull-right p-input-span" style="color: #666;"><span style="color: #c8c8cd;">请选择</span></span>
+							</a>
+						</li>
+					</ul>
+					<textarea id="personAddress" rows="3" cols="40" placeholder="请填写详细地址，不少于5字" maxlength="30"></textarea>
+					<button id="nextButton" type="button" class="mui-btn mui-btn-block">下一步</button>
+				</div>
+				<div id="item2" class="mui-control-content">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<span class="p-input-span">事项主题</span>
+							<input class="p-toWrite-input" id="letterTitle" type="text" name="letterTitle" />
+						</li>
+						<li class="mui-table-view-cell">
+							<a id="issueArea" class="mui-navigate-right">
+								<span class="p-input-span">问题发生地</span>
+								<span id="issueHappenedPlace" class="mui-pull-right p-input-span" style="color: #666;"><span style="color: #c8c8cd;">请选择</span></span>
+							</a>
+
+						</li>
+						<li class="mui-table-view-cell">
+							<textarea id="issueDetailAddress" rows="2" cols="40" placeholder="请填写详细地址，不要重复填写各省市区" maxlength="30"></textarea>
+						</li>
+						<li class="mui-table-view-cell">
+							<textarea id="petitionDetail" rows="3" cols="40" placeholder="请填写信件内容" ondrop="return false"  onkeypress="return /[\u4e00-\u9fa5\w@\.\-_\#$“”’‘\' ，。,\;:；#！!?？`、·…~：￥{}\(\)（）\r\n\[\]【】《+》%\\\/]/g.test(String.fromCharCode(window.event.keyCode))"></textarea>
+						</li>
+						<li id="photo" class="mui-table-view-cell">
+							<span class="p-input-span">附件</span>
+							<span class="mui-icon mui-icon-camera mui-pull-right p-input-span"></span>
+							<input type="file" capture="camera" accept="image/*" id="cameraInput" style="display: none;" />
+						</li>
+						<div id="pic" style="display: none">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									<img width="50%" height="50%" src="" style="border: 0px;" id="images" />
+								</li>
+							</ul>
+						</div>
+						<li class="mui-table-view-cell">
+							<span class="p-input-span">是否公开</span>
+							<div class="mui-switch mui-switch-blue mui-switch-mini">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						<li id="vfcBox" class="mui-table-view-cell mui-input-row">
+							验证码
+							<input id="verificationInput" type="text" maxlength="4" size="4" name="verificationInput" placeholder="请输入验证码" />
+							<div id="verificationCode" class="mui-pull-right">
+								<span>1</span><span>2</span><span>3</span><span>4</span>
+							</div>
+						</li>
+					</ul>
+					<button id="saveInfo" type="button" class="mui-btn mui-btn-block">提交</button>
+				</div>
+			</div>
+				<!-- off-canvas backdrop -->
+				<div class="mui-off-canvas-backdrop"></div>
+			</div>
+		</div>
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<!--<script type="text/javascript" src="../../js/mui.js" ></script>-->
+	<script type="text/javascript" src="../../js/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="../../js/mui.indexedlist.js" ></script>
+	<script type="text/javascript" src="../../js/base64.js"></script>
+	<script type="text/javascript" src="../../js/base64Utf8.js"></script>
+	<script type="text/javascript" src="../../js/jquery.json.js"></script>
+	<script type="text/javascript" src="../../js/jquery.md5.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../js/commonUtil.js"></script>
+	<script src="../../js/binaryajax.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/exif.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="canvasResize.js"></script>
+	<script type="text/javascript" src="../../js/idlist.js" ></script>
+	<script type="text/javascript">
+		mui.init();
+		var isFirstPageDone = false;
+		var sideBar, mask = mui.createMask();
+		var showMenu = false;
+		var showArea = false;
+		var idType = document.getElementById('idType');
+		var areaType = document.getElementById('area');
+		var issueLocation = document.getElementById('issueArea');
+		var deviceHeight = (document.body.offsetHeight-44)+'px';
+		//console.log('deviceoffsetheight--'+deviceHeight);
+		 //侧滑容器父节点
+		var offCanvasWrapper = mui('#offCanvasWrapper');
+		 //主界面容器
+		var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+		 //菜单容器
+		var offCanvasSide = document.getElementById("offCanvasSide");
+		 //移动效果是否为整体移动
+		var moveTogether = false;
+		 //侧滑容器的class列表，增加.mui-slide-in即可实现菜单移动、主界面不动的效果；
+		var classList = offCanvasWrapper[0].classList;
+		classList.add('mui-slide-in');
+		
+		$('#petitionDetail').on('property change',autoHeight);
+		$('#petitionDetail').on('input',autoHeight);
+		
+		function autoHeight(){
+			this.style.height = 'auto';
+			this.style.height = this.scrollHeight + 17 + 'px';
+		}
+		
+		//侧滑栏JS-------------------------------------------------------
+
+		var url = "http://116.22.58.169:8865/mess/app/gdwsxf.jsp";
+		var provincePID = '123',cityPID = '122',districtPID = '124';
+		var provinceOn = false,cityOn = false,districtOn = false;
+		
+		
+		mui.ready(function(){
+			var defaultData = {
+				type:''
+			}
+			if(!is_weixin()){
+				window.location = 'http://www.gdwsxf.gov.cn/web/index.html';
+			}
+			//commonUtil.createIndexedList(box,provincePID,url,defaultData);//获取省数据
+		});
+		isFirstTimeLogin();
+		generateVerificationCode();
+		var toWriteLocalData = [],
+			toWriteFirstPageData = {},
+			toWriteSecondPageData = {};
+		//侧滑栏点击事件-------------------------------------------------------------
+		var IDListParent = $('#offCanvasSide');
+		idType.addEventListener('tap', function() { //点击证件类型，呼出侧边栏并清除之前数据后新建证件列表
+			castTextShadow(); //字体模糊效果
+			clearSidePage();//清除侧滑数据
+			idlistData.initIDList(IDListParent);//生成证件类型列表			
+			offCanvasWrapper.offCanvas('show');
+			onIDListTap();
+		},false);
+		
+		areaType.addEventListener('tap', function() { //点击个人信息地址
+			castTextShadow(); //字体模糊效果
+			var defaultData = {
+				type:''
+			}
+			clearSidePage();
+			indexBase.indexBaseInit(IDListParent);
+			var box = $('#mainBox');
+			commonUtil.createIndexedList(box,provincePID,url,defaultData,deviceHeight);//获取省数据
+//			mui('#offCanvasSideScroll').scroll();
+			cityOn = false;
+			districtOn = false;
+			provinceOn = true;
+			offCanvasWrapper.offCanvas('show');
+			onIndexListTap('bigAddress');
+		},false);
+		//取消模糊效果
+		document.querySelector('.mui-off-canvas-backdrop').addEventListener('tap',function(){
+			resetTextShadow();
+		});
+		//个人地址长度监听
+		$("textarea[maxlength]").bind('input propertychange', function() {  
+	        var maxLength = $(this).attr('maxlength');  
+	        if ($(this).val().length > maxLength) {  
+	            $(this).val($(this).val().substring(0, maxLength));  
+	        }  
+	    })
+		issueLocation.addEventListener('tap', function() { //点击问题属地
+			castTextShadow(); //字体模糊效果
+			clearSidePage(); //清除侧滑框内容
+			indexBase.indexBaseInit(IDListParent); //生成列表
+			var box = $('#mainBox');
+			var defaultData = {
+				type:'city',
+				data:'8a81c4ca49cad5300149cb72f9106ead'
+			}
+			commonUtil.createIndexedList(box,cityPID,url,defaultData,deviceHeight);//获取省数据
+			offCanvasWrapper.offCanvas('show');
+			provinceOn = false;
+			districtOn = false;
+			cityOn= true;
+			onIndexListTap('issueHappenedPlace');
+		},false);
+		//侧滑栏点击事件结束-------------------------------------------------------------
+		function onIndexListTap(targetContainerID){
+			//console.log('当前provinceOn,cityOn,districtOn状态为:---provinceOn=='+provinceOn+'--cityOn=='+cityOn+'--districtOn=='+districtOn);
+			mui('#mainBox').off('tap','li');
+			var areaCode='';
+			var province='',city='',district='';
+			var PORTID='';
+			mui('#mainBox').on('tap','li',function(){
+				var cuA = document.getElementById('currentArea');
+				if(this.dataset.group) return; 
+				//console.log(this.innerText);
+				var innerT = this.innerText;
+				areaCode = this.dataset.value;
+				if(provinceOn){
+					if(innerT == '澳门特别行政区'||innerT == '香港特别行政区'|| innerT=='台湾省'){
+						passIndexDataToHTML(targetContainerID,innerT);
+						return;
+					}
+					cuA.innerText = province = innerT;
+					PORTID = cityPID;
+					var data = {
+						type:'city',
+						data:areaCode
+					}
+					provinceOn = false;
+					cityOn = true;
+				}else if(cityOn){
+					if(innerT == '中山市'||innerT == '东莞市'){
+						passIndexDataToHTML(targetContainerID,'广东省'+innerT);
+						return;
+					}
+					cuA.innerText = city = innerT;
+					PORTID = districtPID
+					var data ={
+						type:'district',
+						data:areaCode
+					}
+					cityOn = false;
+					districtOn = true;
+				}else if(districtOn){
+					cuA.innerText = district = innerT;
+					if(province == ''){province = '广东省'}
+					passIndexDataToHTML(targetContainerID,province+city+innerT);
+					districtOn = false;
+					province = false
+					return;
+				}				
+				clearMainBoxToInitNewIndexList();
+				var box = $('#mainBox');
+				commonUtil.createIndexedList(box,PORTID,url,data,deviceHeight);//获取省数据
+			});
+			
+			function passIndexDataToHTML(targetID,data){
+				data = data || '请选择';
+				$('#'+targetID).text(data);
+				resetTextShadow();//在关闭侧滑前清除字体模糊效果
+				offCanvasWrapper.offCanvas('close');
+			}
+			
+			function clearMainBoxToInitNewIndexList(){
+				var indexStyle = $(document).find('style')[1];
+				if(indexStyle){
+					indexStyle.remove();
+				}	
+				$('#mainBox').empty();
+			}
+		}
+		function onIDListTap(){
+			mui('#idListContainer').on('tap','label,input',function(){
+				if(this.tagName == 'LABEL'){
+					passIDDataToHTML(this.innerText);
+				}else{
+					passIDDataToHTML(this.previousElementSibling.innerText);
+				}				
+				resetTextShadow();//在关闭侧滑前清除字体模糊效果
+				offCanvasWrapper.offCanvas('close');
+			});
+			function passIDDataToHTML(data){
+				data = data ||'请选择';
+				$('#documentType').text(data);
+			}
+		}
+		function resetTextShadow(){ //清除text-shadow类,去除字体模糊效果
+			var shadowText = document.querySelector('.textShadow');
+			shadowText.classList.remove('textShadow');
+		}
+		function castTextShadow(){
+			document.querySelector('.mui-inner-wrap').classList.add('textShadow');
+		}
+		//侧滑栏JS结束--------------------------------------------------------
+		document.getElementById('nextButton').addEventListener('tap', function() { //下一步按钮
+			var firstPageData;
+			getFirstPageData(function(data) {
+				firstPageData = data;
+			});
+
+			if(verifyData(firstPageData)) {
+				var checkedData = verifyData(firstPageData);
+				localStorage.setItem('toWrite-firstPageData', JSON.stringify(checkedData));
+				lockTab(false, function(secTab) { //跳入第二个tab页
+					secTab.previousElementSibling.classList.remove('mui-active');
+					document.querySelector(secTab.previousElementSibling.getAttribute('href')).classList.remove('mui-active');
+					secTab.classList.add('mui-active');
+					document.querySelector(secTab.getAttribute('href')).classList.add('mui-active');
+				});
+			} else {
+
+			}
+		},false);
+		function clearSidePage(){
+			var indexStyle = $(document).find('style')[1];
+			if(indexStyle){
+				indexStyle.remove();
+			}			
+			$('#offCanvasSide').empty();
+		}
+		
+		function onInputFocusScroll(e){
+			//console.log('调用scroll调整');
+			setTimeout(scrolling,300,e,0);
+		}
+		var scrolling = function(e,c){
+			//console.log('scroll开始调整,e==='+e);
+			e.scrollIntoView();
+		};
+		function setMaxNumberInput(area,limitNum){ //判断输入数字大小
+			if(area.value.length>limitNum){
+				area.value = area.value.substring(0,limitNum);
+			}
+		}
+		function checkTelNumInput(area){
+			var r = new RegExp(/^1[0-9]{10}$/);
+			if(!r.test(area.value)){
+				mui.toast('请输入正确的手机号码');
+				area.parentElement.classList.add('warning');
+			}else{
+				area.parentElement.classList.remove('warning');
+			}
+		}
+		document.getElementById('verificationInput').addEventListener('focus',function(){
+			onInputFocusScroll(this);
+		});
+		function getFirstPageData(callback) {
+			var nameInput = document.getElementById('name').value;
+			var telephoneNumInput = document.getElementById('telephoneNum').value;
+			var numberOfPetitionPeople = document.getElementById('numberOfPeo').value;
+			var documentType = idType.lastElementChild.innerText;
+			var documentNumber = document.getElementById('documentNum').value;
+			var personProvinceCityDistric = areaType.lastElementChild.innerText;
+			var personAddress = document.getElementById('personAddress').value;
+			documentType = documentType == '请选择' ? '' : documentType;
+			personProvinceCityDistric = personProvinceCityDistric == '请选择' ? '' : personProvinceCityDistric;
+			var verifyCode = document.getElementById('verifyCode').value;
+			
+			
+			var firstPageData = {
+				name: nameInput,
+				telephoneNum: telephoneNumInput,
+				numberOfPeo: numberOfPetitionPeople,
+				documentType: documentType,
+				documentNum: documentNumber,
+				bigAddress: personProvinceCityDistric,
+				personAddress: personAddress,
+				verifyCode:verifyCode
+			};
+			callback(firstPageData);
+		}
+
+		function verifyData(dataObj) {
+			var counter = 0;
+			
+			for(var i in dataObj) {
+				if(removeInputSpace(dataObj[i])) {
+					dataObj[i] = removeInputSpace(dataObj[i]); //去掉前后空格且取消所有<>标签内容
+					counter++;
+				} else { //第一页数据为空判断提示
+					var toastContent = '';
+					switch(i) {
+						case 'name':
+							toastContent = '姓名';
+							break;
+						case 'telephoneNum':
+							toastContent = '手机号码';
+							break;
+						case 'numberOfPeo':
+							toastContent = '信访人数';
+							break;
+						case 'documentType':
+							toastContent = '证件类型';
+							break;
+						case 'documentNum':
+							toastContent = '证件号码';
+							break;
+						case 'bigAddress':
+							toastContent = '省市区';
+							break;
+						case 'personAddress':
+							toastContent = '详细地址';
+							break;
+						case 'verifyCode':
+							toastContent = '手机验证码';
+							break;	
+						default:
+							toastContent = '请完成本页所有信息输入';
+							break;
+					}
+					//console.log(toastContent + '不能为空');
+					mui.toast(toastContent + '不能为空');
+					break;
+				}
+			}
+			if(counter == 8) {
+				var tel = dataObj.telephoneNum;
+				var telReg = new RegExp(/^1[0-9]{10}$/);
+				if(!telReg.test(tel)){
+					mui.toast('请输入正确的手机号码');
+					return false;
+				}
+				if(dataObj.documentType == '身份证' && !idCardNoUtil.checkIdCardNo(dataObj.documentNum)){
+					mui.toast('请输入正确的身份证号码');
+					return false;
+				}
+				if(dataObj.documentType == '居住证' && !idCardNoUtil.checkIdCardNo(dataObj.documentNum)){
+					mui.toast('请输入正确的居住证号码');
+					return false;
+				}
+				var reg = new RegExp(/^[\u4e00-\u9fa5\w@\.\-_\#\$“”’‘\' ，。,\;:；#！!`、·…~：？?￥${}\(\)（）\r\n\[\]【】《+》%\\\/]+$/);
+				if(!reg.test(dataObj.personAddress)){
+					mui.toast('基本信息详细地址含非法字符，请删除后提交');
+					return false;
+				}
+				var DTReg = new RegExp(/^[\u4e00-\u9fa5\w@\.\-_0-9（）?？\(\)\[\]\/]+$/);
+				if(!DTReg.test(dataObj.documentNum)){
+					mui.toast('证件号码含非法字符，请删除后提交');
+					return false;
+				}
+				document.getElementById('telephoneNum').parentElement.classList.remove('warning');
+				return dataObj;
+			} else {
+				return false;
+			}
+			//console.log('计数器值---' + counter);
+		}
+
+		function removeInputSpace(input) {
+			input = $.trim(input);
+			input.replace(/<[^>]*>/, ''); //去掉所有<>标签内的内容
+			if(input != '') {
+				return input;
+			} else {
+				return false;
+			}
+		}
+
+		function isFirstTimeLogin() {
+			var firstPageData = JSON.parse(localStorage.getItem('toWrite-firstPageData'));
+			if(firstPageData) { //第一页填满
+				console.log('欢迎回来');
+				for(var i in firstPageData) {
+					if(i != 'verifyCode'){
+						$('#' + i).is('input') ? $('#' + i).val(firstPageData[i]) : $('#' + i).text(firstPageData[i]);
+						//console.log('--' + i + '--' + firstPageData[i]);
+					}
+				}
+				var letterTitleFromStorage = localStorage.getItem('letterTitleInput') || '';
+				var issueDetailAddressFromStorage = localStorage.getItem('issueDetailAddress') || '';
+				var petititionDetailFromStorage = localStorage.getItem('petitionDetail') || '';
+				var issueLocationFromStorage = localStorage.getItem('issueLocation') || '请选择';
+				$('#letterTitle').val(letterTitleFromStorage);
+				$('#issueDetailAddress').val(issueDetailAddressFromStorage);
+				$('#petitionDetail').val(petititionDetailFromStorage);
+				$('#issueHappenedPlace').text(issueLocationFromStorage);
+			} else {
+				//console.log('第一次登录');
+				lockTab(true);
+			}
+		}
+
+		function lockTab(type, callback) {
+			var secondTab = document.querySelector('#segmentedControl a:last-of-type');
+			if(type) {
+				secondTab.classList.add('mui-disabled');
+			} else {
+				secondTab.classList.remove('mui-disabled');
+				return callback(secondTab);
+			}
+
+		}
+		//监听第二个tab页的输入并放入localstorage保存
+
+		$('#letterTitle').bind('input propertychange', 'input', function(e) {
+			var letterTitleInput = this.value.replace(/<[^>]*>/g, '');
+			localStorage.setItem('letterTitleInput', letterTitleInput);
+		});
+		$('#issueDetailAddress').bind('input propertychange', 'input', function(e) {
+			var issueDetailAddress = this.value.replace(/<[^>]*>/g, '');
+			localStorage.setItem('issueDetailAddress', issueDetailAddress);
+		});
+		$('#petitionDetail').bind('input propertychange', 'input', function(e) {
+			var petitionDetail = this.value.replace(/<[^>]*>/g, '');
+			localStorage.setItem('petitionDetail', petitionDetail);
+		});
+
+		document.getElementById('vfcBox').addEventListener('tap', function(e) { //判断验证码所在li点击事件
+			var target = e.target;
+			var vfcCode = document.getElementById('verificationCode');
+			var input = this.children[1];
+			if(target != vfcCode && !vfcCode.contains(target)) { //点击非验证码区域让输入框获得焦点
+				setTimeout(function() { //设置100延时避免mui事件取消焦点
+					input.focus();
+				}, 150);
+			} else { //点击验证码区域生成新的验证码
+				generateVerificationCode();
+			}
+		},false);
+		//微信端照片流开始--------------------------------------------------------------------------
+		var base64;
+		document.getElementById('photo').addEventListener('tap', function() { //获取照片或相册
+			onInputFocusScroll(this);
+			document.getElementById("cameraInput").click();
+		},false);
+		$("#cameraInput").on('change', function() {
+			if(this.files[0]){
+				var file = this.files[0];
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					$("#pic").show();
+					document.getElementById("images").src = e.target.result;
+					//console.log(e.target.result);
+				}
+				reader.readAsDataURL(file);
+			}else{
+				console.log('未选图片');
+			}
+			
+		});
+		window.onload = function () { //判断浏览器是否支持
+            var input = document.getElementById("cameraInput");
+           // var result = document.getElementById("result");
+            var img_area = document.getElementById("images");
+            if (typeof(FileReader) === 'undefined') {
+                result.innerHTML = "抱歉，你的浏览器不支持拍照，请使用现代浏览器操作！";
+                input.setAttribute('disabled', 'disabled');
+            } else {
+                input.addEventListener('change', readFile, false);
+            }
+        };
+        function readFile() {
+            var file = this.files[0];
+            //这里我们判断下类型如果不是图片就返回 去掉就可以上传任意文件
+            if (!/image\/\w+/.test(file.type)) {
+                alert("请确保文件为图像类型");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+                var _img_ = new Image();
+                _img_.src = this.result;
+                var tmph = _img_.height;
+		        var tmpw = _img_.width;
+		        var isHengTu = tmpw > tmph;
+		        var max = Math.max(tmpw, tmph);
+		        var min = Math.min(tmpw, tmph);
+		        var bili = min / max;
+		        if (max > 1200) {
+		            max = 1200;
+		            min = Math.floor(bili * max);
+		        }
+		        tmph = isHengTu ? min : max;
+		        tmpw = isHengTu ? max : min;
+		        _img_.style.border = "1px solid rgb(200,199,204)";
+		        _img_.style.margin = "10px";
+		        _img_.style.width = "150px";
+		        _img_.style.height = "150px";
+		        if(tmph=='' || tmpw==''){
+		        	tmpw = 640;
+		        }
+                canvasResize(file,{
+                	width: tmpw,
+                	height:tmph,
+                	crop:false,
+                	quality:50,
+                	rotate:0,
+                	callback:function(data){
+                		//alert('width--'+pw+'--height--'+ph);
+                		//alert(_img_.height);
+                		base64 = data;
+                	}
+                })
+            }
+        }
+		//微信端照片流结束-------------------------------------------------------------------------------
+		
+		document.getElementById('saveInfo').addEventListener('tap', function() {			
+			//获取第一页数据
+			var firstPageData;
+			getFirstPageData(function(data) {
+				firstPageData = data;
+			});
+			//验证并放入storage
+			var checkedData = verifyData(firstPageData);
+			if(checkedData) {
+				localStorage.setItem('toWrite-firstPageData', JSON.stringify(checkedData));
+			} else {
+				console.log('第一页数据错误');
+				return
+			}
+			//获取并验证第二页数据
+			isSecondPageInputDone(function(data){
+				showSuccessMask();
+				//console.log(JSON.stringify(data));
+				var certID = getIDTypeFromChineseToID(firstPageData.documentType);
+				var img = base64 != null? base64.split('base64,'):'';
+				var sendData = {
+					name:firstPageData.name,
+					phone:firstPageData.telephoneNum,
+					verifyCode:firstPageData.verifyCode,
+					num:parseInt(firstPageData.numberOfPeo),
+					certType:certID,
+					certNum:firstPageData.documentNum,
+					contactAddress:firstPageData.bigAddress+firstPageData.personAddress,
+					topic:data.petitionTitle,
+					happenAddr:data.issueLocation+data.issueDetailLocation,
+					content:data.petitionContent,
+					isOpen:data.isLetterPublic?'1':'0',
+					attacImgs:img[1]
+				}
+				sendData.subtype = 'weixin';
+				postData(sendData);
+				//console.log(JSON.stringify(sendData));
+				
+			});
+		},false);
+		function postData(sendData){
+			commonUtil.sendJson('132',sendData,'',function(data){
+				if(data && data !=''){
+					for(var i in data){
+						//console.log('--'+i+'--'+data[i]+'--');
+						data[i] = encodeURI(data[i]);
+					}
+					//plus.nativeUI.closeWaiting();
+					showSuccessMask(1);
+					submitFrequencyControl('set');//储存此时时间参数，用于防止提交过频
+					mui.openWindow({
+						url:'toWrite-complete.html?'+'mailNum='+data.mailNum+'&queryNum='+data.queryNum+'&name='+data.name+'&date='+data.date
+					});
+				}else if(data ==''){
+					mui.toast('提交错误，请检查内容后再次提交');
+					showSuccessMask(1);
+					return;
+				}else{
+					setTimeout(function(){
+						showSuccessMask(1);
+						mui.toast('网络超时，请检查网络连接');
+					},10000);
+					return;
+				}
+			},function(){//服务器返回错误
+				//console.log('错误返回，回调');
+				showSuccessMask(1);
+			},function(a,b,c){
+				//console.log('通信错误，错误信息--'+b);
+				showSuccessMask(1);
+			});
+		}
+		function submitFrequencyControl(type){
+			if(type == 'set'){
+				var cD = new Date();
+				cD = cD.format('yyyyMMdd-hhmm');
+				//console.log('信件时间----'+cD);
+				localStorage.setItem('lastLetterSubmitedTime',cD);//设置参数
+			}else if(type == 'get'){
+				var lastDate = localStorage.getItem('lastLetterSubmitedTime');
+				if(!lastDate){return true};//如果不存在参数，则不需要判断
+				var lastDateArray = lastDate.split('-');
+				var cDate = new Date();
+				var cYear = cDate.format('yyyyMMdd');
+				var currentDate = cDate.format('hhmm');
+				if(lastDateArray[0] == cYear){ //如果年月日相同，则进行下一步判断
+					var diff = currentDate - lastDateArray[1];
+					if(diff<=1){ //判断是否在上次提交后一分钟内
+						mui.toast('请勿在一分钟内重复提交信件');
+						return false;
+					}else{
+						return true;
+					}
+				}else{ //年月日不同，则返回
+					return true;
+				}
+			}
+		}
+		function showSuccessMask(time){
+			var body = $('body');
+			if(!time){
+				var sMask = '<span id="flashNote">提交中···</span>';
+				body.append(sMask);
+				$('#saveInfo').addClass('mui-disabled');
+			}else{
+				$('#saveInfo').removeClass('mui-disabled');
+				setTimeout(function(){
+					$('#flashNote').fadeOut(100);
+					$('#flashNote').remove();
+				},time);
+			}
+		}
+		function getIDTypeFromChineseToID(text){ //证件类型转换，如果修改html页面内容，这里也要改
+			//console.log('证件类型中文转id---输入---'+text);
+			var id='';
+			switch(text){
+				case '身份证':
+					id = '1';
+					break;
+				case '居住证':
+					id = '1';
+					break;	
+				case '军官证':
+					id = '2';
+					break;
+				case '士兵证':
+					id = '3';
+					break;
+				case '警官证':
+					id = '4';
+					break;
+				case '港澳台居民身份证':
+					id = '5';
+					break;
+				case '护照':
+					id = '6';
+					break;
+				case '户口簿':
+					id = '7';
+					break;
+				case '其他证件':
+					id = '99';
+					break;
+				default:
+					console.log('证件类型转换错误');
+					break;	
+			}
+			return id;
+		}
+		function isSecondPageInputDone(callback) {
+			var vfcInput = $('#verificationInput').val();
+			var petitionTitle = $('#letterTitle').val().replace(/<script[^>]*?>.*?<\/script>/g, '');
+			var issueLocation = $('#issueHappenedPlace').text()!='请选择'?$('#issueHappenedPlace').text():'';
+			var issueDetailLocation = $('#issueDetailAddress').val().replace(/<[^>]*>/g, '');
+			var petitionContent = $('#petitionDetail').val().replace(/<[^>]*>/g, '');
+			var isLetterPublic = $('.mui-switch-mini').hasClass('mui-active')?true:false;
+			//获取图片数据，没有则为空字符串
+			//var imgData = base64 || '';
+			var secondPageData = {
+				petitionTitle: petitionTitle,
+				issueLocation: issueLocation,
+				issueDetailLocation: issueDetailLocation,
+				petitionContent: petitionContent
+			}
+			var count2 = 0;
+			for(var i in secondPageData) {
+				if(removeInputSpace(secondPageData[i])){
+					secondPageData[i] = removeInputSpace(secondPageData[i]);
+					count2++;
+				}else{
+					switch(i){
+						case 'petitionTitle':
+							mui.toast('信件标题不能为空');
+							break;
+						case 'issueLocation':
+							mui.toast('问题发生地不能为空');
+							break;
+						case 'issueDetailLocation':
+							mui.toast('问题发生地详细地址不能为空');
+							break;
+						case 'petitionContent':
+							mui.toast('信件内容不能为空');
+							break;
+						default:
+							console.log('第二页数据出错');
+							break;
+					}
+					break;
+				}
+			}
+				if(count2 == 4 ){ //第一层验证第二页的4个必填内容
+					if(vfcInput !=  ''){//第二层验证第二页的二维码是否为空
+						var reg = new RegExp(/^[\u4e00-\u9fa5\w@\.\-_\#\$“”’‘\' ，。,\;:；?？#！!`、·…~：\r\n￥${}\(\)（）\[\]【】《+》%\\\/]+$/);
+						if(!reg.test(petitionTitle)){
+							mui.toast('事项主题含非法字符，请删除后提交');
+							return false;
+						}
+						if(!reg.test(issueDetailLocation)){
+							mui.toast('问题详细发生地址含非法字符，请删除后提交');
+							return false;
+						}
+						if(!reg.test(petitionContent)){
+							mui.toast('信访内容含非法字符，请删除后提交');
+							return false;
+						}
+						if(generateVerificationCode(vfcInput)) {//第三层验证第二页的二维码是否正确
+							//plus.nativeUI.showWaiting('提交中···');
+							secondPageData.isLetterPublic = isLetterPublic;
+							//secondPageData.imgData = imgData;
+							console.log('验证码正确');
+							//最后还要判断距离上次提交的时间是否在规定时间内，避免提交过频
+							if(submitFrequencyControl('get')){
+								return callback(secondPageData);
+							}else{
+								showSuccessMask(1);
+							}
+						}else{
+							console.log('当前输入验证码为——-'+vfcInput);
+							console.log('验证码错误');
+							mui.toast('验证码输入错误');
+							generateVerificationCode();
+						}
+					}else{
+						mui.toast('验证码不能为空');
+					}
+				}else{
+					console.log('第二页内容有空');
+				}
+				
+			}
+			
+			
+			
+			
+			var areaName, areaCode, //身份属地
+				idNum,idText, //证件类型
+				issueLocationCode, issueLocationName; //问题属地
+
+			var forChecking;//二维码容器，用于验证
+			function generateVerificationCode(input) { //二维码生成，无input的时候是生成，有Input的时候是验证
+				if(!input) {
+					var result = Math.floor(1000 + Math.random() * 9000);
+					forChecking = result + '';
+					console.log('验证码---' + result);
+					rotateNum(forChecking);
+					return false;
+				}else {
+					//console.log('输入为--' + input + '--验证码为==' + forChecking);
+					if(input == forChecking) {
+						return true;
+					}
+
+				}
+			}
+
+			function rotateNum(num) {
+				var first = $('#verificationCode span:nth-child(1)');
+				first.text(num.substring(1, 0));
+				var second = $('#verificationCode span:nth-child(2)');
+				second.text(num.substring(2, 1));
+				var third = $('#verificationCode span:nth-child(3)');
+				third.text(num.substring(3, 2));
+				var fouth = $('#verificationCode span:nth-child(4)');
+				fouth.text(num.substring(4, 3));
+				var numBox = [first, second, third, fouth];
+
+				for(var i = 0; i < numBox.length; i++) {
+					var rotateDeg = 'rotate(' + selectfrom(-30, 30) + 'deg)';
+					numBox[i].css('-ms-transform', rotateDeg);
+					numBox[i].css('-moz-transform', rotateDeg);
+					numBox[i].css('-webkit-transform', rotateDeg);
+					numBox[i].css('transform', rotateDeg);
+				}
+			}
+
+			function selectfrom(lowValue, highValue) {
+				var choice = highValue - lowValue + 1;
+				return Math.floor(Math.random() * choice + lowValue);
+			}
+			//手机验证码
+			var phoneCodeTime = 60;
+			var phoneCodeInterval;
+			var phoneCodeIfSend = true;
+			function getPhoneCode(data){
+				//console.log("手机验证码状态："+data.hd.rtc+"   "+base64utf8.decode64(data.dt));
+				if(data.hd.rtc==0||data.hd.rtc=="0"){
+//					alert("验证码已发送，请查收。");
+					mui.alert('验证码已发送，请查收。','提示','确定');
+				}else{
+					//alert("发送验证码失败，请稍后再试！");
+					mui.alert('发送验证码失败，请稍后再试！','提示','确定');
+				}
+				
+			}
+			document.getElementById('btnSendPhoneCode').addEventListener('tap', function() { //发送验证码按钮
+			    var tel = document.getElementById("telephoneNum").value;
+				var telReg = new RegExp(/^1[0-9]{10}$/);
+				if(!telReg.test(tel)){
+					mui.toast('请输入正确的手机号码');
+					return false;
+				}
+				if(phoneCodeIfSend){
+				  phoneCodeIfSend = false;
+				  phoneCodeInterval = setInterval(setUpPhoneCodeBtn, 1000);
+				  //console.log("执行diaoyong");
+				 commonUtil.sendJsonNew('131',{'phone':tel},'',getPhoneCode);
+				}
+				//console.log("执行完毕getElementById");
+			});
+            function setUpPhoneCodeBtn(){
+            	var obj = document.getElementById("btnSendPhoneCode");
+            	if(phoneCodeTime>0){
+            		 phoneCodeTime--;
+            		 obj.value="等待"+phoneCodeTime+"秒";
+            	}else{
+            		clearInterval(phoneCodeInterval);
+            		phoneCodeTime = 60;
+            		phoneCodeIfSend = true;
+            		obj.value="发送验证码";
+            	}
+            }
+	</script>
+
+</html>

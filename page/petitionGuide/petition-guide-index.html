@@ -1,0 +1,535 @@
+<!--
+	作者：王排
+	时间：2016-07-14
+	描述：信访指南主页
+-->
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>信访指南</title>
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/common.css">
+
+		<style>
+			html,
+			body {
+				height: 100%;
+				width: 100%;
+			}
+			
+			.title {
+				padding: 10px;
+				font-size: 20px;
+				color: #FFFFFF;
+				background-color: #F2473D;
+				text-align: center;
+			}
+			
+			.mui-navigate-right {
+				font-size: 14px;
+			}
+			/* 控制下面展示框体 */
+			
+			.mui-card .mui-control-content {
+				padding: 10px;
+			}
+			
+			.mui-control-content {
+				/*height: 800px;*/
+				/*background: white;*/
+			}
+			/* 控制下面展示框体 */
+			/* 控制左右选择色彩变化的 */
+			
+			.mui-segmented-control {
+				border: 1px solid #f7f7f7;
+			}
+			
+			.mui-segmented-control .mui-control-item.mui-active {
+				color: #F2473D;
+				background-color: white;
+			}
+			
+			.mui-segmented-control .mui-control-item {
+				font-family: '微软雅黑';
+				color: white;
+				border-color: #F2473D;
+				border-left: 1px solid #F2473D;
+			}
+			/* 控制左右选择色彩变化的 */
+			/*点击具体指南获取数据样式控制*/
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				color: #F2473D;
+				border-color: #f2473d;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+				color: inherit;
+				border: 0;
+			}
+			
+			.mui-segmented-control.mui-scroll-wrapper .mui-control-item {
+				padding: 0 5px;
+			}
+			
+			.mui-fullscreen .mui-segmented-control~ .mui-slider-group {
+				top: 18px;
+			}
+			/*点击具体指南获取数据样式控制*/
+			/*对地市信访指南*/
+			
+			ul li a .mui-pull-right {
+				padding-right: 25px;
+			}
+			/*对地市信访指南*/
+			
+			#item1 .mui-slider-group .mui-control-content .mui-content {
+				font-size: 14px!important;
+				font-family: '微软雅黑'!important;
+				word-break: normal;
+				width: auto;
+				padding: 0px 15px 30px 15px;
+				/*display:block;*/
+				white-space: pre-wrap;
+				word-wrap: break-word;
+				overflow: hidden;
+			}
+			
+			#item1 .mui-slider-group .mui-control-content .mui-content div {
+				font-size: 14px!important;
+				font-family: '微软雅黑';
+				text-indent: 14px;
+				overflow: hidden;
+			}
+			#item1 .mui-slider-group .mui-control-content #title {
+				font-family: "微软雅黑"!important;
+				font-size: 14px;
+				color: #999;
+			}
+			
+			#item1 .mui-slider-group .mui-control-content .mui-content div span {
+				/*font-size: 14px!important;
+				font-family: '微软雅黑'!important;*/
+			}
+			
+			#item1 .mui-slider-group .mui-control-content .mui-content div strong {
+				font-size: 14px!important;
+				font-family: '微软雅黑'!important;
+			}
+			
+			#item1 .mui-slider-group .mui-control-content .mui-content div b {
+				font-size: 14px!important;
+			}
+			
+			#item1 .mui-slider-group .mui-control-content .mui-content img {
+				width: 100%;
+				height: 450px;
+				display: block;
+			}
+			
+			#content {
+				background-color: #FFFFFF;
+			}
+			
+			#sliderSegmentedControl {
+				background-color: #FFFFFF;
+			}
+			
+			.mui-bar-nav {
+				box-shadow: 0 1px 6px #F2473D;
+			}
+			
+			.mui-table-view-chevron .mui-table-view-cell {
+				word-wrap: break-word;
+				overflow: hidden;
+			}
+			#locationContactInfo{
+				
+			}
+			#locationContactInfo .mui-table-view-cell span:first-of-type{
+				width: 20%;
+				float: left;
+			}
+			#locationContactInfo .mui-table-view-cell span:last-of-type{
+				width: 80%;
+				height: auto;
+				overflow: hidden;
+				word-break: break-all;
+				float: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav p-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:white;"></a>
+			<h1 class="mui-title">信访指南</h1>
+		</header>
+		<div class="mui-content" style="overflow: hidden;height: 100%;">
+			<div style="padding: 10px;background: #F2473D;height:60px;">
+				<div id="segmentedControl" class="mui-segmented-control" style="width:90%;height:40px;margin: 0 auto;">
+					<a class="mui-control-item mui-active" href="#item1">
+						省局信访指南
+					</a>
+					<a class="mui-control-item" href="#item2">
+						地市信访指南
+					</a>
+				</div>
+			</div>
+
+			<div id="item1" class="mui-control-content mui-active" style="overflow: hidden;height: 100%;">
+				<div id="slider" style="top:0px;overflow: hidden;height: 100%;" class="mui-slider">
+					<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+						<div id="common" class="mui-scroll">
+							<a id="#001" class="mui-control-item mui-active" href="#001">
+								<span class="divcss5-x5" href="#001">接访指南</span>
+							</a>
+							<a id="#002" class="mui-control-item" style="margin-left:0px;" href="#002">
+								<span class="divcss5-x5" href="#002">复查复核指南</span>
+							</a>
+							<a id="#003" class="mui-control-item" style="margin-left:0px;" href="#003">
+								<span class="divcss5-x5" href="#003">网信指南</span>
+							</a>
+							<a id="#004" class="mui-control-item" style="margin-left:0px;" href="#004">
+								<span class="divcss5-x5" href="#004">办信指南</span>
+							</a>
+						</div>
+					</div>
+					<div id="content" class="mui-slider-group" style="height: calc(100% - 70px);height: -moz-calc(100% - 70px);height: -webkit-calc(100%-70px);width: 100%;overflow: scroll;">
+						<div id="001" class="mui-control-content mui-active">
+							<!--<div style="" id="title"></div>-->
+							<div id="departmenttime" class="" style=""><span id="department"></span>&nbsp;&nbsp;&nbsp;<span id="time" style=""></span>
+							</div>
+							<div id="content" class="mui-content"></div>
+						</div>
+						<div id="002" class="mui-control-content">
+							<!--<div style="" id="title"></div>-->
+							<div id="departmenttime" class="" style="">
+								<span id="department"></span>&nbsp;&nbsp;&nbsp;<span id="time" style=""></span>
+							</div>
+							<div id="content" class="mui-content"></div>
+						</div>
+						<div id="003" class="mui-control-content">
+							<!--<div style="" id="title"></div>-->
+							<div id="departmenttime" class="" style="">
+								<span id="department"></span>&nbsp;&nbsp;&nbsp;<span id="time" style=""></span>
+							</div>
+							<div id="content" class="mui-content"></div>
+						</div>
+						<div id="004" class="mui-control-content">
+							<!--<div style="" id="title"></div>-->
+							<div id="departmenttime" style=""><span id="department"></span>&nbsp;&nbsp;&nbsp;<span id="time" style=""></span></div>
+							<div id="content" class="mui-content"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="item2" class="mui-control-content">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a id="area" class="mui-navigate-right">
+							<span id="cityName"></span><span class="mui-pull-right" style="color: #c8c7cd;">选择城市</span>
+						</a>
+					</li>
+				</ul>
+				<div style="background:#F5F5F5;"></div>
+				<div class="mui-content">
+					<ul id="locationContactInfo" class="mui-table-view">
+						<li class="mui-table-view-cell" style="color: #333;">
+							<span id="nameX"></span>
+						</li>
+						<li class="mui-table-view-cell" style="color: #333;">
+							<span>热线</span><span id="hotline" style="color: #999;"></span>
+						</li>
+						<li class="mui-table-view-cell" style="color: #333;">
+							<span>电话</span><span id="phone" style="color: #999;"></span>
+						</li>
+						<li class="mui-table-view-cell" style="color: #333;">
+							<span>传真</span><span id="fax" style="color: #999;"></span>
+						</li>
+						<li class="mui-table-view-cell" style="color: #333;">
+							<span>地址</span><span id="addr" style="color: #999;"></span>
+						</li>
+						</li>
+						<li class="mui-table-view-cell" style="color: #333;">
+							<span>网址</span><span id="website" style="color: #999;"></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-3.0.0.min.js"></script>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/jquery.json.js"></script>
+	<script src="../../js/jquery.md5.js"></script>
+	<script src="../../js/base64.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/commonUtil.js"></script>
+	<script src="../../js/base64Utf8.js"></script>
+	<script type="text/javascript" charset="UTF-8">
+		mui.init();
+		var par1; //省局信访指南形式
+		var par2; //地市信访信息获取
+		var pID; //省的ID
+		var cID; //广州市ID
+		var cityName; //广州市ID
+		$(function() {
+			console.log('开始加载');
+			getCommonProblem('001');
+			par1 = '001';
+		});
+		var sideBar, self, mask = mui.createMask(_closeMenu);
+		var showMenu = false;
+		var showArea = false;
+		var opener;
+		var idType = document.getElementById('idType');
+		var areaType = document.getElementById('area');
+		var issueLocation = document.getElementById('issueArea');
+		var imgData;
+		var areaListSideBar;
+		mui.plusReady(function() {
+			netWorkStatus.check();
+			//获取接访指南
+			self = plus.webview.currentWebview();
+			opener = self.opener();
+			setTimeout(function() {
+				//侧滑菜单默认隐藏，这样可以节省内存；
+				areaListSideBar = mui.preload({
+					id: 'areaList',
+					url: 'indexlist.html',
+					styles: {
+						right: 0,
+						width: '80%'
+					}
+				});
+			}, 300);
+
+		});
+
+		function getCommonProblem(par) {
+			var dt = {
+				nid: par
+			};
+			var pid = '120';
+			var actionUrl = '';
+			commonUtil.sendJson(pid, dt, actionUrl, loop);
+		}
+		//循环添加HTML元素
+		function loop(data) {
+			var json = data;
+			console.log('标题=' + json.title.replace('<br>', ''));
+			console.log(json.title.replace('<br>', '') + '=' + unescape(json.content));
+			$("div[id=" + par1 + "]").children("#content").empty();
+			$("div[id=" + par1 + "]").children("#content").append(unescape(json.content));
+			$("div[id=" + par1 + "]").children("#title").html(json.title.replace('<br>', ''));
+			$("div[id=" + par1 + "]").children("div").children("#time").html(json.time);
+			$("div[id=" + par1 + "]").children("div").children("#department").html(json.department);
+			//对第一个div进行空格判断
+			var fristDiv = $("div[id=" + par1 + "]").children("#content").eq(0);
+			console.log(!/.*[\u4e00-\u9fa5]+.*$/.test(fristDiv.html()));
+			if(/.*[\u4e00-\u9fa5]+.*$/.test(fristDiv.toString())) {
+				console.log('打印第一个div======' + fristDiv.toString());
+			}
+			//resizeIMG();
+			removeEmptyElement();
+		}
+//		function resizeIMG(){
+//			var imgArray = $('.mui-content img');
+//			if(typeof imgArray === 'array'){
+//				for(var i = 0;i<imgArray.length;i++){
+//					imgArray[i].css('height','auto');
+//					imgArray[i].css('width','auto');
+//					imgArray[i].parent().css('overflow','scroll');
+//				}
+//			}else{
+//				imgArray.css('height','auto');
+//				imgArray.css('width','auto');
+//				imgArray.parent().css('overflow','scroll');
+//			}
+//			var cH = $('img:first-of-type').parent('#content').height();
+//			cH = cH +21+'px';
+//		}
+		function removeEmptyElement(){
+			if (!('remove' in Element.prototype)) {
+			    Element.prototype.remove = function() {
+			        this.parentNode.removeChild(this);
+			    };
+			}
+			var elArray = document.querySelectorAll('.MsoNormal');
+			for(var i = 0;i<elArray.length;i++){
+				var elC = elArray[i].innerText;
+				var elPE = elArray[i].previousElementSibling;
+				var elNE = elArray[i].nextElementSibling;
+				if(elC.trim() == '' && !elPE){ //当前元素内容为空且前一个元素不存在
+					elArray[i].remove();
+					console.log('去掉了当前元素----'+elArray[i]);
+				}else if(elC.trim() !='' && (elPE&&elPE.innerText.trim()=='')){
+					elPE.remove();
+					console.log('去掉了当前元素的前一个元素----'+elPE);
+				}
+				
+			}
+		}
+		mui('#common').on('tap', '.mui-control-item', function(e) {
+			console.log('====' + $(e.target).attr('href'));
+			par1 = $(e.target).attr('href').replace('#', '');
+			getCommonProblem(par1);
+		});
+		//点击地市信访指南
+		mui('#segmentedControl').on('tap', 'a', function(e) {
+			var par2 = $(e.target).attr('href').replace('#', '');
+			if(par2 == 'item2') {
+				var defaultData = {}
+				commonUtil.sendJson('123', defaultData, '', getId) //获取省数据
+			}
+		});
+		window.addEventListener('closeMenu', function(e) {
+			name = e.detail.name;
+			code = e.detail.code;
+			console.log('==当前选择的是--' + name + '--code===' + code);
+			if(code != null && code.length > 0) {
+				var Data = {
+					cid: code
+				}
+				$("#cityName").html(name);
+				$("#nameX").html(name + '信访局');
+				console.log(name + '信访局');
+				commonUtil.sendJson('121', Data, '', getCity); //获取省数据	
+			}
+			closeMenu('area');
+		});
+		//循环添加HTML元素
+		function getId(data) {
+			var json = data.g;
+			for(var i = 0; i < json.length; i++) {
+				if(json[i].name == '广东省') {
+					pID = json[i].proid;
+					console.log(pID);
+				}
+			}
+			var Data = {
+				proid: pID
+			}
+			commonUtil.sendJson('122', Data, '', getCid); //获取省数据
+		}
+
+		function getCid(data) {
+			var json = data.g;
+			for(var i = 0; i < json.length; i++) {
+				if(json[i].name == '广州市') {
+					cID = json[i].cid;
+					cityName = json[i].name;
+					console.log(json[i].name + '====' + cID);
+				}
+			}
+			var Data = {
+				cid: cID
+			}
+			$("#cityName").html(cityName);
+			$("#nameX").html(cityName + '信访局');
+			console.log(cityName + '信访局');
+			commonUtil.sendJson('121', Data, '', getCity); //获取省数据
+		}
+
+		function getCity(data) {
+			var json = data;
+			$("#hotline").html(json.hotline);
+			$("#phone").html(json.phone);
+			$("#fax").html(json.fax);
+			$("#addr").html(json.addr);
+			$("#website").html(json.website);
+		}
+		//
+		mui(".mui-table-view-cell").on('tap', '#area', function() {
+				console.log('获取点击打印事件');
+				openMenu('area');
+			})
+			/**
+			 * 显示菜单菜单
+			 */
+		function openMenu(type) {
+			console.log('打开类型-----' + type);
+			if(!showMenu && type == 'id') {
+				console.log('打开ID选择');
+				//侧滑菜单处于隐藏状态，则立即显示出来；
+				//显示完毕后，根据不同动画效果移动窗体；
+				idListSideBar.show('none', 0, function() {
+					idListSideBar.setStyle({
+						right: '0px',
+						transition: {
+							duration: 150
+						}
+					});
+				});
+				//显示遮罩
+				mask.show();
+				showMenu = true;
+			} else if(!showArea && type == 'area') {
+				areaListSideBar.show('none', 0, function() {
+					areaListSideBar.setStyle({
+						right: '0px',
+						transition: {
+							duration: 150
+						}
+					});
+				});
+				//显示遮罩
+				mask.show();
+				showArea = true;
+			}
+		}
+		/**
+		 * 关闭侧滑菜单
+		 */
+		function closeMenu(type) {
+			_closeMenu(type);
+			//关闭遮罩
+			mask.close();
+
+		}
+		/**
+		 * 关闭侧滑菜单（业务部分）
+		 */
+		function _closeMenu() {
+			if(showMenu) {
+				idListSideBar.setStyle({
+					right: '-80%',
+					transition: {
+						duration: 150
+					}
+				});
+				//等窗体动画结束后，隐藏菜单webview，节省资源；
+				setTimeout(function() {
+					idListSideBar.hide();
+				}, 200);
+				//改变标志位
+				showMenu = false;
+			} else if(showArea) {
+				areaListSideBar.setStyle({
+					right: '-80%',
+					transition: {
+						duration: 150
+					}
+				});
+				//等窗体动画结束后，隐藏菜单webview，节省资源；
+				setTimeout(function() {
+					areaListSideBar.hide();
+				}, 200);
+				//改变标志位
+				showArea = false;
+			}
+		}
+		window.addEventListener('netchange',function(){
+			netWorkStatus.check();
+		});
+	</script>
+
+</html>

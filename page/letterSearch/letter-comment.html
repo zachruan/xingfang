@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>我要评价</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/common.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+				height: 100%;
+				width: 100%;
+			}
+			
+			#submitButton {
+				width: 100%;
+				margin: auto;
+				background-color: #F2473D;
+				color: #FFFFFF;
+				height: 50px;
+				font-size: 22px;
+				line-height: 1.80;
+			}
+			
+			.mui-popover {
+				height: 225px;
+				width: 150px;
+				text-align: center;
+			}
+			
+			.mui-input-row {
+				padding-top: 8px;
+			}
+			
+			textarea {
+				BORDER-BOTTOM: 0px solid;
+				BORDER-LEFT: 0px solid;
+				BORDER-RIGHT: 0px solid;
+				BORDER-TOP: 0px solid;
+			}
+			
+			.promptDiv {
+				padding-left: 10px;
+				color: #A9A9A9;
+			}
+			
+			.caret {
+				display: inline-block;
+				width: 0;
+				height: 0;
+				margin-left: 2px;
+				vertical-align: middle;
+				border-top: 4px dashed;
+				border-right: 4px solid transparent;
+				border-left: 4px solid transparent;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav p-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我要评价</h1>
+		</header>
+		<div id='box' class="mui-content" style="display: ">
+
+			<div style="background-color: #FFFFFF;text-align: leftcolor: #F2473D;;line-height:45px">
+				<div class="promptDiv">请对我们信访工作机构做出评价</div>
+				<div>
+					<a href="#div_workAgency" class="mui-btn-block mui-btn-outlined  " style="padding: 5px 20px;width: 150px;margin-left: 10px;color: #000000;line-height: 20px;">
+						<span id="span_departmentReview">非常满意</span>
+						<span style="" class="caret"></span>
+					</a>
+
+				</div>
+				<textarea id="departmentReviewContent" rows="3" placeholder="请对我们做出评价吧~"></textarea>
+			</div>
+
+			<div style="margin-top: 10px;background-color: #FFFFFF;text-align: leftcolor: #F2473D;;line-height:45px">
+				<div class="promptDiv">请对我们有权处理机构做出评价</div>
+				<div>
+					<a href="#div_handleAgency" class="mui-btn-block mui-btn-outlined " style="padding: 5px 20px;width: 150px;margin-left: 10px;color: #000000;line-height: 20px;">
+						<span id="span_powerReview">非常满意</span>
+						<span style="" class="caret"><!--color: rgba(170,170,170,.6);--></span>
+					</a>
+
+				</div>
+				<textarea id="powerReviewContent" rows="3" placeholder="请对我们做出评价吧~"></textarea>
+			</div>
+
+			<div style="margin-top:10px;padding: 10px 10px 0px 10px;background-color: #FFFFFF;height: 200px;">
+				<input id="submitButton" type="button" value="提交评价" />
+			</div>
+		</div>
+
+		<div id="div_workAgency" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell" data-value="2" data-name="非常满意">
+							<a href="#">非常满意</a>
+						</li>
+						<li class="mui-table-view-cell" data-value="1" data-name="满意">
+							<a href="#">满意</a>
+						</li>
+						<li class="mui-table-view-cell" data-value="5" data-name="一般">
+							<a href="#">一般</a>
+						</li>
+						<li class="mui-table-view-cell" data-value="3" data-name="不满意">
+							<a href="#">不满意</a>
+						</li>
+						<li class="mui-table-view-cell" data-value="4" data-name="非常不满意">
+							<a href="#">非常不满意</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="div_handleAgency" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell" data-value="2" data-name="非常满意">
+							<a href="#">非常满意</a>
+						</li>
+						<li class="mui-table-view-cell" data-value="1" data-name="满意">
+							<a href="#">满意</a>
+						</li>
+						<li class="mui-table-view-cell" data-value="5" data-name="一般">
+							<a href="#">一般</a>
+						</li>
+						<li class="mui-table-view-cell" data-value="3" data-name="不满意">
+							<a href="#">不满意</a>
+						</li>
+						<li class="mui-table-view-cell" data-value="4" data-name="非常不满意">
+							<a href="#">非常不满意</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- 
+        	描述：隐藏
+        -->
+		<div style="display:none ">
+			<input id="vid" value="" placeholder="vid" />
+			<input id="mailNum" value="" placeholder="mailNum" />
+			<input id="queryNum" value="" placeholder="queryNum" />
+			<input id="departmentReview" value="2" placeholder="工作机构满意度" />
+			<!--信访机构评价  -->
+			<input id="powerReview" value="2" placeholder="处理机构满意度" />
+			<!--处理机关评价  -->
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.0.0.min.js"></script>
+		<script src="../../js/jquery.json.js"></script>
+		<script src="../../js/jquery.md5.js"></script>
+		<script src="../../js/base64.js"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../../js/commonUtil.js"></script>
+		<script src="../../js/base64Utf8.js"></script>
+
+		<script>
+			var ifSub = true;
+			mui.init({
+				//beforeback:back
+			});
+			mui.plusReady(function() {
+				netWorkStatus.check();
+				var self = plus.webview.currentWebview();
+				$("#vid").val(self.vid);
+				$("#queryNum").val(self.queryNum);
+				$("#mailNum").val(self.mailNum);
+			});
+			$(function() {
+
+			});
+
+			mui('body').on('shown', '.mui-popover', function(e) {
+				//console.log('shown', e.detail.id); //detail为当前popover元素
+			});
+			mui('body').on('hidden', '.mui-popover', function(e) {
+				//console.log('hidden', e.detail.id); //detail为当前popover元素
+			});
+			// 
+			mui('#div_workAgency').on('tap', 'li', function() {
+				var dataName = $(this).attr("data-name");
+				var dataValue = $(this).attr("data-value");
+				console.log("点击了div_workAgency:" + dataName + " " + dataValue);
+				mui('#div_workAgency').popover('toggle');
+				$("#span_departmentReview").html(dataName);
+				$("#departmentReview").val(dataValue);
+			});
+			mui('#div_handleAgency').on('tap', 'li', function() {
+				var dataName = $(this).attr("data-name");
+				var dataValue = $(this).attr("data-value");
+				console.log("点击了div_handleAgency:" + dataName + " " + dataValue);
+				mui('#div_handleAgency').popover('toggle');
+				$("#span_powerReview").html(dataName);
+				$("#powerReview").val(dataValue);
+			});
+			document.getElementById('submitButton').addEventListener('tap', function() {
+				var vid = $("#vid").val();
+				var departmentReview = $("#departmentReview").val();
+				var departmentReviewContent = $("#departmentReviewContent").val();
+				var powerReview = $("#powerReview").val();
+				var powerReviewContent = $("#powerReviewContent").val();
+				if(vid.length < 1) {
+					mui.toast("未选中信件，请返回");
+					return false;
+				}
+				if(departmentReview.length < 1) {
+					mui.toast("请选择信访评价满意度");
+					return false;
+				}
+				if(departmentReviewContent.length < 1) {
+					mui.toast("请填写信访工作机构评论");
+					return false;
+				}
+				if(powerReview.length < 1) {
+					mui.toast("请选择有权处理机构满意度");
+					return false;
+				}
+				if(powerReviewContent.length < 1) {
+					mui.toast("请填写有权处理机构评价");
+					return false;
+				}
+				var pid = 141;
+				var dt = {
+					'vid': vid,
+					'departmentReview': departmentReview,
+					'departmentReviewContent': departmentReviewContent,
+					'powerReview': powerReview,
+					'powerReviewContent': powerReviewContent
+				};
+				if(ifSub) {
+					ifSub = false;
+					commonUtil.sendJsonNew(pid, dt, '', function(data) {
+						ifSub = true;
+						console.log("返回的json：" + JSON.stringify(data));
+						console.log('结果：' + data.hd.rtc)
+						if(data.hd.rtc == 0 || data.hd.rtc == '0') {
+							mui.toast("提交成功")
+							var vid = $("#vid").val();
+							var queryNum = $("#queryNum").val();
+							var mailNum = $("#mailNum").val();
+                            var web = plus.webview.currentWebview().opener();
+                            mui.fire(web, 'updateData', {'vid':vid,'mailNum':mailNum,'queryNum':queryNum});
+						    mui.back();
+						} else {
+							mui.toast("提交失败！");
+						}
+					});
+				}
+
+			});
+			window.addEventListener('netchange',function(){
+				netWorkStatus.check();
+			});
+		</script>
+	</body>
+
+</html>

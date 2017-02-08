@@ -1,0 +1,60 @@
+{
+  "page/toWrite/toWrite-Rule.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/common.css",
+      "js/jquery-3.0.0.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "page/main.html": {
+    "resources": [
+      "js/jquery.json.js",
+      "js/base64Utf8.js",
+      "js/base64.js",
+      "fonts/bottom-nav.ttf",
+      "js/jquery.md5.js",
+      "js/common.js",
+      "banner0722.jpg",
+      "js/commonUtil.js"
+    ],
+    "refer": []
+  },
+  "page/guide.html": {
+    "resources": [
+      "go1.jpg",
+      "js/common.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "go2.jpg",
+      "go3.jpg"
+    ],
+    "refer": [
+      "page/index.html"
+    ]
+  },
+  "page/toConsult/toConsult.html": {
+    "resources": [
+      "js/plugin.js",
+      "fonts/bottom-nav.ttf"
+    ],
+    "refer": [
+      "page/toConsult/toConsult-chatRoom.html"
+    ]
+  },
+  "page/index.html": {
+    "resources": [
+      "page/main.html",
+      "fonts/bottom-nav.ttf",
+      "css/common.css"
+    ],
+    "refer": [
+      "page/toWrite/toWrite-Rule.html",
+      "page/main.html",
+      "page/toConsult/toConsult.html",
+      "page/toQuery.html"
+    ]
+  }
+}

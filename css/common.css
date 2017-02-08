@@ -1,0 +1,96 @@
+@font-face {
+    font-family: petition;
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('../fonts/bottom-nav.ttf') format('truetype');
+}
+.p-icon{
+	font-family: petition;
+	position: relative;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	-webkit-font-smoothing:antialiased;
+	font-size:24px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.p-icon-home:before{
+	content: '\e905';
+}
+.p-icon-toWrite:before{
+	content: '\e908';
+}
+.p-icon-toQuery:before{
+	content: '\e907';
+}
+.p-icon-toConsult:before{
+	content: '\e90B';
+}
+.p-icon-toConsult-xfzy:before{
+	content:'\e90a';
+}
+.p-icon-toConsult-lszx:before{
+	content: '\e902';
+}
+.p-icon-toConsult-spzy:before{
+	content: '\e904';
+}
+.p-icon-main-gzyw:before{
+	content: '\e901';
+}
+.p-icon-main-xfzn:before{
+	content: '\e909';
+}
+.p-icon-main-zcfg:before{
+	content: '\e90c';
+}
+.p-icon-main-ajxd:before{
+	content: '\e900';
+}
+.p-icon ~ .mui-tab-label{
+	font-size: 11px;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.p-header{
+	background-color: #F2473D;
+}
+.p-header .mui-title{
+	color: #FFFFFF;
+}
+.p-header a{
+	color: #FFFFFF;
+}
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
+	color: #F2473D!important;
+	border-color:#F2473D!important;
+}
+.mui-switch-blue.mui-active{
+	border-color:#F2473D ;
+	background-color: #F2473D;
+}
+.p-input-span{
+	display: inline-block;
+	width: 30%;
+	padding: 10px 0px;
+}
+.mui-table-view-cell .p-input-span:first-of-type{
+	float: left;
+}	
+.p-toWrite-input{
+	float: right;
+	width: 70%!important;
+	margin: 0!important;
+	border: none!important;
+}
+.p-button{
+	background-color: #F2473D;
+	color: #FFFFFF;
+	width: 90%;
+	margin: auto;
+	display: block;
+	height: 44px;
+}

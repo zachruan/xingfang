@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>信件详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/common.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+				height: 100%;
+				width: 100%;
+			}
+			
+			.common-div {
+				margin-top: 10px;
+				background-color: #FFFFFF;
+			}
+			
+			#wrap {
+				position: relative;
+				overflow: hidden;
+			}
+			
+			#gradient {
+				width: 100%;
+				height: 35px;
+				background: repeat-x;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+			}
+			
+			#read-more {
+				padding: 5px;
+				/*border-top: 1px double #ddd;*/
+				background: #fff;
+				color: #333;
+				text-align: right;
+				font-size: 13px;
+			}
+			
+			#read-more a {
+				padding-right: 22px;
+				background: no-repeat 100% 50%;
+				;
+				text-decoration: none;
+				color: #979797;
+			}
+			
+			#read-more a: hover {
+				color: #000;
+			}
+			/*****/
+			
+			.vertical-process {
+				/*position: absolute;*/
+				/*left: 0;*/
+				/*right: 0;*/
+				width: 100%;
+				list-style: none;
+				list-style-image: none;
+				/*margin: 20px 0 10px 0;*/
+				/*padding: 0;*/
+			}
+			
+			.vertical-process .step {
+				display: flex;
+				justify-content: center;
+				align-content: center;
+			}
+			
+			.vertical-process li {
+				position: relative;
+				text-align: center;
+				height: 80px;
+			}
+			
+			.vertical-process li> span:first-of-type {
+				position: absolute;
+				left: -35px;
+				border-radius: 50%;
+				border: 3px solid silver;
+				background: silver;
+				width: 1.2em;
+				height: 1.2em;
+			}
+			
+			.vertical-process li> p {
+				text-align: start;
+			}
+			
+			.vertical-process .status {
+				text-align: start;
+			}
+			
+			.vertical-process li:after {
+				content: '';
+				display: block;
+				background-color: silver;
+				width: 0.1em;
+				height: 40%;
+				position: absolute;
+				top: 20px;
+				left: -26px;
+			}
+			
+			.vertical-process li:before {
+				content: '';
+				display: block;
+				background-color: silver;
+				width: 0.1em;
+				height: 40%;
+				position: absolute;
+				top: -30px;
+				left: -26px;
+			}
+			
+			.vertical-process li:first-child:before {
+				display: none;
+			}
+			
+			.vertical-process li:last-child:after {
+				display: none;
+			}
+			
+			.vertical-process .done:before,
+			.vertical-process .done:after,
+			.vertical-process .done span:first-of-type,
+			.vertical-process .active span:first-of-type,
+			.vertical-process .active:before {
+				background-color: #F2473D;
+				border: #F2473D;
+			}
+			
+			.vertical-process .active:after {
+				background-color: silver;
+			}
+			
+			#submitButton {
+				width: 90%;
+				margin: auto;
+				background-color: #F2473D;
+				color: #FFFFFF;
+				height: 50px;
+				font-size: 22px;
+				line-height: 1.80;
+			}
+			
+			.banner-message {
+				padding: 10px;
+				color: #a9a9a9;
+				line-height: 30px;
+				border-bottom: 1px double #ddd;
+			}
+			
+			#div_transacts span {
+				margin-bottom: : 10px;
+			}
+			
+			#div_transacts .transacts {
+				border-bottom: 1px solid #a9a9a9;
+				margin-bottom: 10px;
+				padding-bottom: 10px;
+			}
+			#processBox strong{font-weight: 100;}
+		</style>
+	</head>
+
+	<body scroll="no">
+		<header class="mui-bar mui-bar-nav p-header" id="header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">信件详情</h1>
+		</header>
+		<div id='box' class="mui-content" style=";overflow: scroll;">
+
+			<div style=";background-color: #FFFFFF;text-align: left;font-size: 20px;color: #F2473D;padding-left: 10px;line-height:45px">
+				<!--<div >信件未办结</div>-->
+				<div>信件<span id="span_statu">状态加载中...</span></div>
+			</div>
+			<div class="common-div" style="padding: 0 10px 0 10px;">
+				<div style="padding: 16px 0 16px 0;">
+					<p id="title" style="font-size: 18px;color: black;Line-height:30px">
+						正在加载标题...
+					</p>
+					<div style="color: #a9a9a9" id="div_mailNo">
+						<!--GDGD22131232 2016-07-19-->
+					</div>
+				</div>
+				<!-- 内容 折叠开始-->
+				<div id="wrap">
+					<div>
+						<p style="color: #333" id="content">
+							正在加载内容...
+						</p>
+
+					</div>
+					<div id="gradient"></div>
+				</div>
+				<div id="read-more"></div>
+				<!-- 内容 折叠结束-->
+			</div>
+
+			<div class="common-div">
+				<div style="" class="banner-message">转送流程</div>
+				<div>
+					<ul class="mui-table-view">
+
+						<li class="mui-table-view-cell">
+							<div id="div_processBox">暂无转送流程</div>
+							<ol id="processBox" class="vertical-process">
+<!--
+								<li class="done">
+									<span class="step"><span></span></span>
+									<span class="mui-pull-left status">您的信件于&nbsp2016年07月25日<strong>广东省信访局</strong>转交给<strong>惠州市信访局</strong>处理。</span>
+									<span class="mui-pull-right time">2016-04-01</span>
+								</li>
+								<li class="done">
+									<span class="step"><span></span></span>
+									<span class="mui-pull-left status">处理中<p>[广东省信访局]胡涛</p></span>
+									<span class="mui-pull-right time">2016-04-01</span>
+								</li>
+								<li class="done">
+									<span class="step"><span></span></span>
+									<span class="mui-pull-left status">处理中<p>[广东省信访局]胡涛</p></span>
+									<span class="mui-pull-right time">2016-04-01</span>
+								</li>
+								<li class="active">
+									<span class="step"><span></span></span>
+									<span class="mui-pull-left status">转送处理<p>[广东省信访局]王晓</p></span>
+									<span class="mui-pull-right time">2016-04-01</span>
+								</li>
+								<li class="">
+									<span class="step"><span></span></span>
+									<span class="mui-pull-left status">来信登记<p>[广东省信访局]刘辉</p></span>
+									<span class="mui-pull-right time">2016-04-01</span>
+								</li>-->
+							</ol>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="common-div">
+				<div class="banner-message">办理情况及回复</div>
+				<div style="padding: 11px 15px" id="div_transacts">暂无办理情况</div>
+				<!--<div style="padding: 10px" id="div_transacts">
+					<div class="transacts">
+						<div>测试的回复</div>
+						<span>附件：
+						<a href="">ceshi1.zip</a>
+						<a href="">ceshi2.zip</a>
+					</span>
+					</div>
+					<div class="transacts">
+						<div>测试的回复第二个</div>
+						<span>附件：
+						<a href="">asd22.zip</a>
+						<a href="">bbb21312.zip</a>
+					</span>
+					</div>
+				</div>-->
+				<div style="text-align:center;padding-bottom: 10px;" id="div_submitButton">
+					<a id="submitButton" class="mui-btn">我要评价</a><br>
+				</div>
+			</div>
+
+			<div class="common-div" id="div_departmentReview">
+				<div class="banner-message">
+					对信访工作机构的满意度
+				</div>
+				<div style="padding: 10px 10px 10px 10px;word-break:break-all;" id="div_content_departmentReview">
+					<div>满意</div>
+					<div>测试</div>
+				</div>
+			</div>
+			<div class="common-div" id="div_powerReview">
+				<div class="banner-message">
+					对有权处理机关的满意度
+				</div>
+				<div style="padding: 10px 10px 10px 10px;word-break:break-all;" id="div_content_powerReview">
+					<div>满意</div>
+					<div>测试</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div style="display: none;">
+			<input id="vid" type="text" value="" />
+            <input id="mailNum" value="" placeholder="mailNum" />
+			<input id="queryNum" value="" placeholder="queryNum" />
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.0.0.min.js"></script>
+		<script src="../../js/jquery.json.js"></script>
+		<script src="../../js/jquery.md5.js"></script>
+		<script src="../../js/base64.js"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../../js/commonUtil.js"></script>
+		<script src="../../js/base64Utf8.js"></script>
+
+		<script>
+			function loadData(data) {
+				var content = unescape(data.content); //解密
+				//
+				$("#span_statu").html(data.statu);
+				$("#title").html(data.title);
+				$("#div_mailNo").html(data.mailNo + " &nbsp;&nbsp;" + data.date.substring(0, 10));
+				//content += "测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容测试的内容";
+				$("#content").html(content);
+				$("#vid").val(data.vid);
+				//转送流程 transforArr   processBox
+				if(data.transforArr.length > 0) {
+					var transforArr = "";
+					for(var tr = 0; tr < data.transforArr.length; tr++) {
+						transforArr += "<li ";
+						if((tr+1)==data.transforArr.length){
+							transforArr += "class=\"done\"";
+						}
+						transforArr += ">";
+						transforArr += "<span class=\"step\"><span></span></span>";
+						transforArr += "<span class=\"mui-pull-left status\">";
+						transforArr += data.transforArr[tr];
+						transforArr += "</span></li>";
+					}
+					$("#processBox").html(transforArr);
+					$("#div_processBox").hide();
+				}
+				//办理情况 transacts
+				if(data.transacts.length > 0) {
+					var transacts = "";
+					for(var t = 0; t < data.transacts.length; t++) {
+						transacts += "<div class=\"transacts\">";
+						transacts += "<div>" + unescape(data.transacts[t].content) + "</div>";
+						if(data.transacts[t].attacs.length>0){
+							transacts += "<span>附件：";
+						for(var ta = 0; ta < data.transacts[t].attacs.length; ta++) {
+							//transacts+="<a href=\""+data.transacts[t].attacs[ta].attacUrl+"\">"+data.transacts[t].attacs[ta].attacName+"</a>";
+							transacts += "<a href=\"#\">" + data.transacts[t].attacs[ta].attacName + "</a>";
+						}
+						transacts += "</span>";
+						}
+						transacts += "</div>"
+					}
+					$("#div_transacts").html(transacts);
+				}
+				//是否可以评价needRemark 
+				if(data.needReview=="1"&&data.isReview != "1") { //
+					$("#div_submitButton").show();
+				} else {
+					$("#div_submitButton").hide();
+				}
+				//是否显示评价
+				if(data.isReview == '1') {
+					$("#div_departmentReview").show();
+					$("#div_powerReview").show();
+					var departmentReview = "<div>" + reSatisfaction(data.departmentReview) + "</div>";
+					departmentReview += "<div>" + data.departmentReviewContent + "&nbsp;</div>";
+					$("#div_content_departmentReview").html(departmentReview);
+					var powerReview = "<div>" + reSatisfaction(data.powerReview) + "</div>";
+					powerReview += "<div>" + data.powerReviewContent + "&nbsp;</div>"
+					$("#div_content_powerReview").html(powerReview);
+				} else {
+					$("#div_departmentReview").hide();
+					$("#div_powerReview").hide();
+				}
+				contentFold();
+			}
+
+			mui.init({
+				//beforeback:back
+			});
+			mui.plusReady(function() {
+				netWorkStatus.check();
+				var self = plus.webview.currentWebview();
+				var data = self.data;
+				$("#mailNum").val(self.mailNum);
+				$("#queryNum").val(self.queryNum);
+				console.log("信件详情data: " + data);
+				if(data == null || data.length < 1) {
+					mui.toast("没有数据");
+				} else {
+					loadData(data);
+				}
+			});
+			$(function() {
+				
+			});
+			//内容折叠,加载内容后执行
+			function contentFold() {
+				var slideHeight = 80; // px
+				var defHeight = $('#wrap').height();
+				console.log("slideHeight:" + slideHeight + " defHeight:" + defHeight)
+				if(defHeight >= slideHeight) {
+
+					$('#wrap').css('height', slideHeight + 'px');
+					$('#read-more').append('<a href="#">﹀ 展开</a>');
+					$('#read-more a').click(function() {
+						var curHeight = $('#wrap').height();
+						if(curHeight == slideHeight) {
+							$('#wrap').animate({
+								height: defHeight
+							}, "normal");
+							$('#read-more a').html('︿ 隐藏');
+							$('#gradient').fadeOut();
+						} else {
+							$('#wrap').animate({
+								height: slideHeight
+							}, "normal");
+							$('#read-more a').html('﹀ 展开');
+							$('#gradient').fadeIn();
+						}
+						return false;
+					});
+				}
+			}
+			document.getElementById('submitButton').addEventListener('tap', function() {
+				var vid = $("#vid").val();
+				var mailNum = $("#mailNum").val();
+				var queryNum = $("#queryNum").val();
+				if(vid.length < 1) {
+					mui.toast("没有找到对应信件");
+					return false;
+				}
+				var letterComment = plus.webview.getWebviewById("letter-comment");
+				if(letterComment != null) {
+					mui.openWindow({
+						id: "letter-comment",
+						show: {
+							aniShow: 'slide-in-right',
+							duration: 300
+						},
+						extras: {
+							'vid': vid
+							,'mailNum': mailNum,
+						    'queryNum': queryNum
+						} //额外扩展参数
+					});
+				} else {
+					mui.openWindow({
+						url: "./letter-comment.html",
+						id: "letter-comment",
+						show: {
+							aniShow: 'slide-in-right',
+							duration: 300
+						},
+						extras: {
+							'vid': vid
+							,'mailNum': mailNum,
+						    'queryNum': queryNum
+						} //额外扩展参数
+					});
+				}
+
+			});
+
+			function reSatisfaction(v) {
+				var value = parseInt(v);
+				switch(value) {
+					case 1:
+						return "满意。";
+						break;
+					case 2:
+						return "非常满意。";
+						break;
+					case 3:
+						return "不满意";
+						break;
+					case 4:
+						return "非常不满意。";
+						break;
+					case 5:
+						return "一般。";
+						break;
+
+				}
+			}
+
+			window.addEventListener('updateData', function(event) {
+				var vid = event.detail.vid;
+				var mailNum = event.detail.mailNum;
+				var queryNum = event.detail.queryNum;
+				var pid = "140"; //编号
+				var dt = {
+					'mailNum': mailNum,
+					'queryNum': queryNum
+				}
+				commonUtil.sendJson(pid, dt, '', function(data) {
+					loadData(data);
+				});
+			});
+			window.addEventListener('netchange',function(){
+				netWorkStatus.check();
+			});
+		</script>
+	</body>
+
+</html>

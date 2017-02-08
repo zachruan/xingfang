@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/common.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav p-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title"></h1>
+		</header>
+		
+	</body>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js" ></script>
+		<script type="text/javascript">
+			mui.init({
+				beforeback:back
+			});
+			var thisWebview,isFirstTimeVisit = true;
+			mui.plusReady(function(){
+				netWorkStatus.check();
+				thisWebview = plus.webview.currentWebview();
+			});
+			var roomID='',chatRoom;
+			window.addEventListener('toConsult-chatRoomUrl',function(e){
+				var self = e.detail;
+				var url = self.chatRoomUrl;
+				var roomTitle = self.roomText;
+				roomID = self.roomID;
+				if(url && isFirstTimeVisit){ //第一次访问，需要新建窗口
+					document.querySelector('.mui-title').innerText = roomTitle;
+					chatRoom = plus.webview.create(url,roomID,{
+						top:'44px',
+						bottom:'1px'
+					});
+					plus.webview.currentWebview().append(chatRoom);
+					chatRoom.appendJsFile('../../js/mui.min.js');
+					isFirstTimeVisit = false;
+				}else{
+					document.querySelector('.mui-title').innerText = roomTitle;
+					chatRoom.loadURL(url);
+				}
+				chatRoom.onloaded = informOpener;
+			});
+			function back(){
+				console.log('关闭当前聊天室');
+				chatRoom.stop();
+				chatRoom.clear();
+				//thisWebview.remove(chatRoom);
+				//chatRoom.close();
+				mui.fire(thisWebview.opener(),'fromChatRoom');
+				thisWebview.opener().evalJS('if(mui.os.android){closeWaiting()}');
+			}
+			function informOpener(){
+				var leavingRoomUrl = chatRoom.getURL();
+				if(leavingRoomUrl == '' || typeof leavingRoomUrl != 'string'){
+					return;
+				}
+				console.log('当前加载的URL是---'+leavingRoomUrl);
+				if(leavingRoomUrl.match(/mLeavingMessage/g)){
+					console.log('当前选择不在线，将跳转至离线留言');
+				}else{
+					console.log('页面加载完毕，显示页面');
+					mui.fire(thisWebview.opener(),'pageLoaded');
+					thisWebview.opener().evalJS('if(!mui.os.android){plus.nativeUI.closeWaiting();}');
+				}	
+			}
+			window.addEventListener('netchange',function(){
+				netWorkStatus.check();
+			});
+		</script>
+</html>

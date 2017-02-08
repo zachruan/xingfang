@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/common.css" />
+		<style>
+			html,body{
+				height: 100%;
+				width: 100%;
+				position: relative;
+			}
+			.bigPic{
+				height: 30%;
+				text-align: center;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				display: -moz-box;
+				display: -webkit-box; 
+				-moz-box-align: center;
+				-moz-box-pack: center;
+				-webkit-box-pack:center; 
+				-webkit-box-align:center;
+			}
+			.icon-ok{
+				height: 80px;
+				width: 80px;
+				font-size: 80px;
+				color: #F2473D;				
+			}
+			.icon-ok:before{
+				content: '\e442';
+
+			}
+			.content p{
+				font-size: 20px;
+				line-height: 30px;
+			}
+			.content span{
+				color: #F2473D;
+			}
+			.content p:nth-child(3),.content p:nth-child(4){
+				text-align: end;
+			}
+			.content{
+				background-color: #EFEFF4;
+			}
+			#flashNote{
+				padding: 10px 15px;
+				display: block;
+				margin: auto;
+				position: absolute;
+				top: 40%;
+				background-color: #999;
+				color: #FFFFFF;
+				left: 0;
+				right: 0;
+				width: 50%;
+				text-align: center;
+				border-radius: 5px;
+			}
+		</style>
+	</head>
+
+	<body>		
+		<div class="mui-content" style="height: 100%;padding-left: 10px;padding-right: 10px;display: block;">
+			<div class="bigPic">
+				<span class="mui-icon icon-ok"></span>
+			</div>
+			<div class="content">
+				<!--<p>张三:</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好！您的信件已经成功提交，信件编号为:<span>GD321321123123</span>,
+					查询码为:<span>2333</span>。可凭信件编号和查询码在网站中查询相关情况。
+				</p>
+				<p>广东省信访局</p>
+				<p>2016/13/13</p>-->
+			</div>
+			<!--<button id="saveImg" class="mui-btn p-button" type="button">保存为图片</button>-->
+		</div>
+	</body>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.0.0.min.js" ></script>
+		<script type="text/javascript" src="../../js/common.js" ></script>
+		<script type="text/javascript" src="../../js/html2canvas.min.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			var ws=null;
+			var bitmap1=null;
+			var mailD='';
+			mui.ready(function(){
+				clearToWriteSecondPageStorageData();
+				var name = decodeURI(getRequestParameter('name'));
+				var mailNum = decodeURI(getRequestParameter('mailNum'));
+				var queryNum = decodeURI(getRequestParameter('queryNum'));
+				var date = decodeURI(getRequestParameter('date'));
+				mailD =date;
+				
+				var text = '<p>'+name+'</p>'+
+				'<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好！您的信件已经成功提交，信件编号为:<span>'+mailNum+'</span>,'+
+				'查询码为:<span>'+queryNum+'</span>。可凭信件编号和查询码在网站中查询相关情况。'+
+				'</p>'+
+				'<p>广东省信访局</p>' +
+				'<p>'+date+'</p>';
+				addHtml(text);
+			});
+			
+			
+			function addHtml(text){
+				$('.content').append(text);
+			}
+			function clearToWriteSecondPageStorageData(){ //删除我要写信第二页的储存内容
+				localStorage.removeItem('letterTitleInput');
+				localStorage.removeItem('issueDetailAddress');
+				localStorage.removeItem('petitionDetail');
+				localStorage.removeItem('issueLocation');
+			}
+			function saveScreen(imgName){
+				html2canvas(document.querySelector('.content'),{
+					onrendered:function(canvas){
+						var img = canvas.toDataURL("image/png");
+						downloadURI(img,mailD+'.png');
+					}
+				});
+				function downloadURI(uri, name) {
+				  var link = document.createElement("a");
+				  link.download = name;
+				  link.href = uri;
+				  link.click();
+				}				
+			}
+			function clearFlashNote(){
+				var flash = '<span id="flashNote">成功保存图片</span>';
+				$('body').append(flash);
+				setTimeout(function(){
+					var fn = $('body #flashNote');
+					fn.fadeOut(300);
+					console.log(fn);
+					console.log('清除完毕');
+				},2000);
+				
+			}
+
+		</script>
+</html>

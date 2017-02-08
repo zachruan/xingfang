@@ -1,0 +1,99 @@
+<!--
+	作者：王排
+	时间：2016-07-21
+	描述：工作要闻列表-微信端
+-->
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>工作要闻</title>
+		<link href="../../css/mui.min.css" rel="stylesheet"/>
+		<style>
+		#content{
+			width: 100%;
+			overflow: auto;
+			margin-top:6px;
+			padding: 0px 15px 20px 15px;
+			font-size: 20px!important;
+		}
+		#content div{
+			font-size: 14px!important;
+			text-indent: 0!important;
+			overflow: hidden!important;
+			margin: 8pt 5px!important;
+		}
+		#content div  span{
+			font-size: 14px!important;
+		}
+		#content div strong{
+			font-size: 14px!important;
+		}
+		#content div b{
+			font-size: 14px!important;
+		}
+		#content img{
+			width: 100%!important;
+			height: auto!important;
+			width:75%;
+		}
+		.mui-content #title{
+			margin-left: 10px;
+			width:95%;
+			font-family: "微软雅黑";
+			font-size: 17px;
+			margin-top:15px;
+		}
+		.mui-content #departmenttime{
+			margin-left: 10px;
+			width:95%;
+			font-family: "微软雅黑";
+			font-size: 12px;
+			color: #999;
+			margin-top:18px;
+		}
+		</style>
+	</head>
+
+	<body id="body" style="background-color:#FFFFFF">
+		<div class="mui-content" style="background-color:#FFFFFF">
+				<div  style="display:block;word-break: break-all;word-wrap: break-word;font-weight:bold;" id="title"></div>
+				<div id="departmenttime" class="" style="">
+				<span id="department"></span>&nbsp;&nbsp;&nbsp;<span id="time" style=""></span>
+				</div>
+				<div id="content" class="mui-content" style="background-color:#FFFFFF"></div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-3.0.0.min.js"></script>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/jquery.json.js"></script>
+	<script src="../../js/jquery.md5.js"></script>
+	<script src="../../js/base64.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/commonUtil.js"></script>
+	<script src="../../js/base64Utf8.js"></script>
+	<script type="text/javascript" charset="UTF-8">
+		mui.init();
+		var id;
+		$(function() {
+			id = localStorage.getItem('id');
+			var dt = {
+				nid: id
+			};
+			var pid = '102';
+			var actionUrl = 'http://116.22.58.78:8865/mess/app/gdwsxf.jsp';
+			commonUtil.sendJson(pid, dt, actionUrl, loop);
+		});
+		function loop(data) {
+			var json = data;
+			//console.log(unescape(json.content));
+			$("#content").append(unescape(json.content));
+			$("#title").html(json.title.replace('<br>',''));
+			$("#time").html(json.time);
+			$("#department").html(json.department);
+		}
+	</script>
+
+</html>

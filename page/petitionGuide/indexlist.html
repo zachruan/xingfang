@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.indexedlist.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			
+			#done.mui-disabled {
+				color: gray;
+			}
+			
+			#resultContainer {
+				padding: 10px 15px;
+				height: 40px;
+				background-color: #FFFFFF;
+				color: #999999;
+			}
+			
+			#resultContainer span {
+				padding-right: 10px;
+			}
+			.mui-indexed-list-bar{
+				background-color: white;
+			}
+			.mui-table-view-divider:after,.mui-table-view-divider:before{
+				background-color: transparent;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="resultContainer">
+			<span id="currentArea">广东省</span>
+		</div>
+		<div id="mainBox" class="mui-content" style="color: #333;">
+
+		</div>
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="../../js/mui.indexedlist.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../js/jquery.json.js"></script>
+	<script type="text/javascript" src="../../js/base64.js"></script>
+	<script type="text/javascript" src="../../js/base64Utf8.js"></script>
+	<script type="text/javascript" src="../../js/jquery.md5.js"></script>
+	<script type="text/javascript" src="../../js/commonUtil.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		var box = $('.mui-content');
+		var url = "http://116.22.58.169:8865/mess/app/gdwsxf.jsp";
+		var provincePID = '123',
+			cityPID = '122',
+			districtPID = '124';
+		var province = '',
+			city = '',
+			district = '';
+		var provinceOn = false,
+			cityOn = false,
+			districtOn = false;
+
+		//获取opener对象
+		var opener;
+		mui.plusReady(function() {
+			opener = plus.webview.currentWebview().opener();
+			self = plus.webview.currentWebview();
+		});
+
+		mui.ready(function() {
+			var defaultData = {
+				type: 'city',
+				data: '8a81c4ca49cad5300149cb72f9106ead'
+			}
+			commonUtil.createIndexedList(box, cityPID, url, defaultData); //获取省数据
+			provinceOn = true
+		});
+
+		mui('body').on('tap', 'li', function() {
+			if(this.dataset.group) return;  //如果点击的是分组li，则无不进行任何操作
+			var data = {},
+				pid;
+			var areaCode = this.dataset.value;
+			var areaName = this.innerText;
+			var areaHolder = document.getElementById('currentArea');
+			console.log('当前选择的是--' + areaName + '--code===' + this.dataset.value);
+			var data={
+				name:areaName,
+				code:areaCode
+			}
+			mui.fire(opener, 'closeMenu', data);
+		});
+
+		function passDataToOpener(code, type) {
+			if(!type) {
+				var data = {
+					area: province + city + district,
+					code: code
+				}
+			} else {
+				var data = {
+					issueArea: '广东省' + city + district,
+					issueCode: code
+				}
+				console.log('问题属地---' + data.issueArea);
+			}
+			mui.fire(opener, 'closeMenu', data);
+			setTimeout(function() {
+				self.reload();
+			}, 200);
+		}
+
+		function clearBox() {
+			$('#mainBox').empty();
+		}
+		var issueCityOn = false,
+			issueDistrictOn = false;
+		window.addEventListener('queryIssueLocation', function() { //监听问题属地按钮
+			provinceOn = false, cityOn = false, districtOn = false;
+			var data = {
+				type: 'city',
+				data: '8a81c4ca49cad5300149cb72f9106ead'
+			}
+			var pid = '122';
+			clearBox();
+			commonUtil.createIndexedList(box, pid, url, data); //获取广东省数据
+			issueCityOn = true;
+			onIssueLocationClick();
+		});
+
+		function onIssueLocationClick() {
+			mui('body').on('tap', 'li', function() {
+				if(this.dataset.group) return;  //如果点击的是分组li，则无不进行任何操作
+				var issueCity = this.innerText;
+				var issueCityCode = this.dataset.value;
+				if(issueCityOn) {
+					city = issueCity;
+					var data = {
+						type: 'district',
+						data: issueCityCode
+					}
+					var portId = '124';
+					issueCityOn = false;
+					issueDistrictOn = true;
+				} else if(issueDistrictOn) {
+					district = issueCity;
+					passDataToOpener(issueCityCode, 'issueLocation');
+					return;
+				}
+				clearBox();
+				commonUtil.createIndexedList(box, portId, url, data); //获取数据
+			});
+		}
+	</script>
+
+</html>

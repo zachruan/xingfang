@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/common.css" />
+		<style>
+			html,body {
+				background-color: #f5f5f5;
+				height: 100%;
+				width: 100%;
+				font-size:calc(100vw/6.4);
+			}
+			.mui-table-view:before{
+				height: 0;
+			}
+			.mui-table-view:after{
+				height: 0;
+			}
+			.mui-content.p-main-top-nav a:active{
+				background-color: #EEEEEE;
+				
+			}
+			.p-nav-text{
+				color: #333;
+				display: block;
+				margin-top: 0.2rem;
+				font-size: 0.28rem;
+				margin-bottom: 0.24rem;	
+			}
+			.title{
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			.p-main-top-nav{
+				margin-top:0.2rem ;
+				height: 1.96rem;
+				padding-top: 0.24rem;
+				background-color: #FFFFFF;
+				margin-bottom: 10px;
+			}
+			.p-bottom-line{
+				position: relative;
+				width: 100%;
+				display: inline-block;
+				margin-bottom: 10px;
+			}
+			.p-bottom-line:after{
+				position: absolute;
+				right: 0;
+				bottom: -5px;
+				left: 0;
+				background-color: #EEEEEE;
+				content: '';
+				height: 1px;
+			}
+			.p-bottom-line:first-child:after{
+				bottom: 0;
+			}
+			.mui-table-view-cell{
+				height: 1.72rem;
+				display: flex;
+				align-items: center;
+			}
+			.p-main-li-limited-text{
+				line-height: 150%;
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				height: auto;
+				float: left;
+				color: #333;
+				clear: both;
+				font-size: 0.28rem;
+			}
+			.p-main-li-type{
+				/*position: absolute;*/
+				padding-top: 0.1rem;
+				display: block;
+				left: 0;
+				color: #999;
+				font-size: 0.22rem;
+				float: left;
+			}
+			.p-main-li-time{
+				/*position: absolute;*/
+				padding-top: 0.1rem;
+				padding-left:0.1rem ;
+				display: block;
+				color: #999;
+				font-size: 0.22rem;
+				float: left;
+				margin-left: 0.2rem;
+			}
+			.p-main-li-imgDiv{
+				position: absolute;
+				right: 0.2rem;
+				height: 1.28rem;
+				width: 1.68rem;
+				overflow: hidden;
+			}
+			.p-main-li-imgDiv img{
+				/*float: left;
+				margin: 0;
+				height: auto;
+				max-width: 100%;*/
+				height: auto;
+				width: auto;
+			}
+			.p-main-top-nav-unit{	
+				width: 25%;
+				float: left;
+				text-align: center;
+			}
+			.p-middle-bar{
+				border-radius: 50%;
+				height: 1rem;
+				width: 1rem;
+				padding: 0;
+				margin: auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+				display: -moz-box;
+				display: -webkit-inline-box;  
+				-moz-box-align: center;
+				-moz-box-pack: center;
+				-webkit-box-pack:center; 
+				-webkit-box-align:center;
+			}
+			.mui-table-view-cell:after{
+				left: 0.2rem;
+				right: 0.2rem;
+				background-color: #eee;
+			}
+			.p-icon{
+				color: #fff;
+				font-size: 0.5rem;
+				display: block;
+			}
+			.mui-table{
+				min-height: 68px;
+			}
+		</style>
+	</head>
+	<body>
+		<!--<div class="mui-content" style="height: 150px;margin-bottom: 10px;overflow: hidden;">-->
+			<img src="../banner0722.jpg" width="100%"/>
+		<!--</div>-->
+		<div class="mui-content p-main-top-nav">
+			<a class="p-main-top-nav-unit">
+				<div class="p-middle-bar" style="background-color: #2ea5f6">
+					<span class="p-icon p-icon-main-gzyw"></span> 
+					<!--<span class="mui-icon mui-icon-contact" style="color: #fff;"></span>-->
+					<!--<img src="../icon/gongzuoyaowen.svg" height="60%" />-->
+				</div>
+				<span class="p-nav-text">工作要闻</span>
+			</a>
+			<a class="p-main-top-nav-unit">
+				<div class="p-middle-bar" style="background-color: #12e1c0">
+					<span class="p-icon p-icon-main-xfzn"></span>
+					<!--<img src="../icon/xinfangzhinan.svg" height="60%" />-->
+				</div>
+				<span class="p-nav-text">信访指南</span>
+			</a>
+			<a class="p-main-top-nav-unit">
+				<div class="p-middle-bar" style="background-color: #fda83a">
+					<span class="p-icon p-icon-main-zcfg"></span>
+					<!--<img src="../icon/zhengcefagui.svg" height="60%" />-->
+				</div>
+				<span class="p-nav-text">政策法规</span>
+			</a>
+			<a class="p-main-top-nav-unit">
+				<div class="p-middle-bar" style="background-color: #fd5e5d">
+					<span class="p-icon p-icon-main-ajxd"></span>
+					<!--<img src="../icon/anjianxuandeng.svg" height="60%" />-->
+				</div>
+				<span class="p-nav-text">案件选登</span>
+			</a>
+		</div>
+		<div class="mui-content" style="background-color:#FFFFFF ;">
+			<span style="padding-left: 15px;font-size: 0.28rem;padding-top: 0.22rem;padding-bottom: 0.1rem;display: block;">最新资讯</span>
+			<ul id="listBox" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+		        <!--<li class="mui-table-view-cell">
+		            <div class="mui-table">
+		                <div class="mui-table-cell mui-col-xs-8">
+		                    <div class="p-main-li-limited-text">
+								记录记录记录记录记录记录记录记录记录记录记录记录记录记录记录记录记录记录记录记录
+							</div>
+							<div>
+								<span class="p-main-li-type">工作要闻</span>
+		                    	<span class="p-main-li-time">2016-07-11</span>
+							</div>
+		                </div>
+		                <div class="p-main-li-imgDiv" style="background-size: cover;background-image: url(http://www.gdwsxf.gov.cn/uploadfile/editor/img//f3f102c00f8d4e6cb9cd0ce81821f7e7.jpg);background-repeat: no-repeat;"></div>
+		            </div>
+		        </li>-->
+		   </ul>    
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-3.0.0.min.js" ></script>
+	<script type="text/javascript" src="../js/common.js" ></script>
+	<script type="text/javascript" src="../js/jquery.json.js" ></script>
+	<script type="text/javascript" src="../js/base64.js" ></script>
+	<script type="text/javascript" src="../js/base64Utf8.js" ></script>
+	<script type="text/javascript" src="../js/jquery.md5.js" ></script>
+	<script type="text/javascript" src="../js/commonUtil.js" ></script>
+	<script>
+		mui.init();
+		var uniqueNum;
+		var isEmpty=true;
+		var count = 0;
+		pageInit(); //获取数据
+//		setTimeout(function(){
+//			if(needReload() && isEmpty){
+//				pageInit();
+//			}
+//		},2000);
+		var init = setInterval(function(){	
+			if(needReload() && isEmpty){
+				pageInit();
+			}
+			count++;
+			console.log(count);
+			if(count == 2){
+				stopInit();
+			}
+		},3000);
+		function stopInit(){
+			clearInterval(init);
+		}
+		function needReload(){
+			return  $('#listBox').text().trim() == '';
+		}
+		mui.plusReady(function(){
+			 plus.navigator.setStatusBarBackground("#F2473D");
+		});
+		mui.ready(function(){
+			resolutionHack();
+			mui('.p-main-top-nav').on('tap','a',function(){
+				var text = this.querySelector('.p-nav-text').innerText;
+				console.log(text);
+				var pageTarget='';
+				switch(text){
+					case '工作要闻':
+						pageTarget = '../page/workNews/work-news-list.html';
+						break;
+					case '信访指南':
+						pageTarget = '../page/petitionGuide/petition-guide-index.html';
+						break;
+					case '政策法规':
+						pageTarget='../page/policiesRegulations/policies-regulations-list.html';
+						break;
+					case '案件选登':
+						pageTarget='../page/caseSelected/case-selected-list.html';
+						break;
+					default:
+						console.log('中部导航出错');
+						break;
+				}
+				mui.openWindow({
+					url:pageTarget,
+					id:pageTarget
+					
+				})
+			});
+			mui('ul').on('tap','li',function(e){
+				console.log(this.dataset.nid);
+				var eType = this.dataset.type;
+				var id = this.dataset.nid;
+				var url = '';
+				if(eType == '工作要闻'){
+					url = '../page/workNews/work-new-info.html';
+				}else if(eType == '政策法规'){
+					url = '../page/policiesRegulations/policies-regulations-info.html';
+				}else if(eType == '案件选登'){
+					url = '../page/caseSelected/case-selected-info.html';
+				}else{
+					console.log('首页最新资讯列表，类型出错');
+					return;
+				}
+				
+				mui.openWindow({
+					url:url,
+					extras:{
+						nid:id
+					}
+				});
+			});
+		});
+		function resolutionHack(){
+			var deviceW = $(window).width();
+			var fontS = deviceW/6.4;
+			$('html').css('font-size',fontS);
+		}
+		function pageInit(){
+			//id为唯一序列号
+			var baseUrl = 'http://116.22.58.169:8865/mess/app/gdwsxf.jsp';
+			var port = '100';
+			var dt = '';
+			commonUtil.sendJson(port,dt,baseUrl,retrieveD,'',function(a,b,c){
+				if(b == 'abort'){
+					mui.toast('请检查网络连接');
+				}
+			});
+		}
+		function retrieveD(data){ 
+			//var json = eval(base64utf8.decode64(data.dt));
+			//console.log(JSON.stringify(data));
+			isEmpty = false;
+			var dataLength = data.length;
+			var ul = $('ul');
+			var text='';
+			for(var i = 0;i<dataLength;i++){
+				var d = data[i];
+				var imgPart='';
+				if(d.img != ''){
+//					imgPart = 	'<div class="p-main-li-imgDiv">' +
+//		                    		'<img src="'+d.img +'"/>' +
+//		                		'</div>';
+					imgPart = '<div class="p-main-li-imgDiv" style="background-size: cover;background-image: url('+d.img+');background-repeat: no-repeat;"></div>'
+				} 
+				var result = '<li class="mui-table-view-cell" data-nid='+d.nid+' data-type='+ d.type +'>' +
+		            '<div class="mui-table">' +
+		                '<div class="mui-table-cell mui-col-xs-8">' +
+		                  '<div class="p-main-li-limited-text">' +
+								d.title +
+							'</div>' +
+							'<div style="clear:both;">' +
+		                    	'<span class="p-main-li-type">'+ d.type +'</span>' +
+		                    	'<span class="p-main-li-time">'+ d.time +'</span>' +
+		                    '</div>' +	
+		                '</div>' +
+		                imgPart +
+		            '</div>' +
+		        '</li>';
+		        text += result;
+			}
+			if(needReload()){
+				ul.append(text);
+			}
+		}
+		
+		//首页返回键处理
+			//处理逻辑：1秒内，连续两次按返回键，则退出应用；
+//			var first = null;
+//			mui.back = function() {
+//				if (showMenu) {
+//					closeMenu();
+//				} else {
+//					//首次按键，提示‘再按一次退出应用’
+//					if (!first) {
+//						first = new Date().getTime();
+//						mui.toast('再按一次退出应用');
+//						setTimeout(function() {
+//							first = null;
+//						}, 1000);
+//					} else {
+//						if (new Date().getTime() - first < 1000) {
+//							plus.runtime.quit();
+//						}
+//					}
+//				}
+//			};
+		
+		function uniqueId(len){ 
+			len = len || 32;
+		　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+		　　var maxPos = $chars.length;
+		　　var pwd = '';
+		　　for (i = 0; i < len; i++) {
+		　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+		　　}
+		　　return pwd;
+		}
+	</script>
+</html>

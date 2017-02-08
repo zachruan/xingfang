@@ -1,0 +1,292 @@
+<!--
+	作者：王排
+	时间：2016-07-07
+	描述：工作要闻列表
+-->
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>工作要闻</title>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/common.css">
+		<style>
+			.title {
+				padding: 10px;
+				font-size: 20px;
+				color: #FFFFFF;
+				background-color: #F2473D;
+				text-align: center;
+			}
+			
+			.mui-navigate-right {
+				font-size: 14px;
+			}
+			
+			.mui-table-view li {
+				height: 100px;
+			}
+			/*.mui-ellipsis {
+				word-wrap: break-word;
+				word-break: normal;
+			}*/
+			
+			.mui-table-view .mui-media-object {
+				line-height: 42px;
+				max-width: 63px;
+				height: 63px;
+			}
+			
+			.p-list-time {
+				color: #999;
+				font-size: 14px;
+			}
+			
+			p {
+				font-size: 17px;
+				color: #333;
+			}
+			
+			.p-IMGDIV {
+				width: 30%;
+				height: 100%;
+				background-repeat: no-repeat;
+				background-size: cover;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			.p-IMGDIV img {
+				width: 250px;
+				height: 150px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				-webkit-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
+			}
+			
+			.p-list-text {
+				height: 70%;
+				width: 65%;
+				float: left;
+				margin-top: 15px;
+			}
+			
+			.p-list-text-noIMG {
+				height: 70%;
+				width: 100%;
+				float: left;
+				margin-top: 15px;
+				margin-bottom: 10px;
+			}
+			
+			.mui-pull-bottom-pocket {
+				background-color: #FFFFFF;
+			}
+			
+			.mui-ellipsis {
+				white-space: pre-line;
+				text-overflow: -o-ellipsis-lastline;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+			}
+			
+			.mui-table-view-cell:after {
+				left: 15px;
+				right: 15px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav p-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:white;"></a>
+			<h1 class="mui-title">工作要闻</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul id="workNews" class="mui-table-view"></ul>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-3.0.0.min.js"></script>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/jquery.json.js"></script>
+	<script src="../../js/jquery.md5.js"></script>
+	<script src="../../js/base64.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/commonUtil.js"></script>
+	<script src="../../js/base64Utf8.js"></script>
+	<script type="text/javascript" src="../../js/echo-lazyLoading.js"></script>
+	<script type="text/javascript" charset="UTF-8">
+		mui.init({
+			pullRefresh: {
+				container: '#pullrefresh',
+				down: {
+					height: 50, //可选,默认50.触发下拉刷新拖动距离,
+					auto: false, //可选,默认false.自动下拉刷新一次
+					contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+					contentover: "松开刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+					contentrefresh: "正在刷新", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+					callback: pulldownRefresh
+				},
+				up: {
+					contentrefresh: '加载中...',
+					contentnomore: '没有更多',
+					callback: pullupRefresh
+				}
+			}
+		});
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		var count = 0;
+		var pageSize = 8;
+		var size;
+		var pageNum;
+
+		function pulldownRefresh() {
+			console.log('====下拉刷新');
+			count = 0;
+			setTimeout(function() {
+				size = 0;
+				console.log(size);
+				//计算将要加载页数
+				pageNum = Math.ceil(size / pageSize);
+				var dt = {
+					pageSize: pageSize,
+					pageNum: pageNum
+				};
+				var pid = '101';
+				var actionUrl = 'http://116.22.58.78:8865/mess/app/gdwsxf.jsp';
+				//$("#workNews li").remove();
+				commonUtil.sendJson(pid, dt, actionUrl, loop);
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+		}
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pullupRefresh() {
+			console.log('====下拉刷新');
+			count = 1;
+			setTimeout(function() {
+				size = $("#workNews li").length;
+				console.log(size);
+				//计算将要加载页数
+				pageNum = Math.ceil(size / pageSize);
+				var dt = {
+					pageSize: pageSize,
+					pageNum: pageNum
+				};
+				var pid = '101';
+				var actionUrl = 'http://116.22.58.78:8865/mess/app/gdwsxf.jsp';
+				commonUtil.sendJson(pid, dt, actionUrl, loop);
+				//mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //refresh completed
+			}, 1500);
+		}
+
+		//循环添加HTML元素
+		var ss = 0;
+
+		function loop(data) {
+			var json = data;
+			if(json.length == 0 || json.length < 8) {
+				ss = 1;
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh(true); //参数为true代表没有更多数据了。
+				console.log('====没有更多数据');
+				appendHTML(json);
+			} else {
+				if(ss == 0) {
+					console.log('====有更多数据');
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); //参数为false代表有更多数据了。	
+				}
+				appendHTML(json);
+			}
+
+			echo.init({
+				offset: 100,
+				throttle: 250,
+				unload: false,
+				callback: function(element, op) {
+					console.log(element, 'has been', op + 'ed')
+				}
+			});
+
+		}
+
+		function appendHTML(json) {
+			var size2 = $("#workNews li").length;
+			var arr = json;
+			if(size == 0 && size2 > 0) {
+				for(var j = 0; j < arr.length; j++) {
+					for(var k = 0; k < size2; k++) {
+						var zz = $('#workNews li:eq(' + k + ')').attr('id');
+						if(arr[j].nid == zz) {
+							arr[j].nid = '';
+						}
+					}
+				}
+				json = arr;
+				console.log(json);
+			}
+			var result = '';
+			for(var i = 0; i < json.length && json[i].nid != ''; i++) {
+				var titleStyle = 'p-list-text-noIMG';
+				var title = json[i].title.replace('<br>', '');
+				result += '<li class="mui-table-view-cell mui-media" style="color:white;" id="' + json[i].nid + '">';
+				//result += '<a class="mui-" href="#" onclick="answer(id);" id="' + json[i].nid + '">';
+				if(json[i].img) {
+					result += '<div class="mui-pull-right p-IMGDIV"><img src="../../icon/200x200text.png"  data-echo="' + json[i].img + '"/></div>';
+					titleStyle = 'p-list-text';
+				}
+				result += '<div class="' + titleStyle + '">';
+				result += '<p class="mui-ellipsis">' + title + '</p><span class="p-list-time">' + json[i].time + '</span>';
+				result += '</div></li>';
+			}
+			console.log('循环 内容=' + result);
+			if(count == 0) {
+				console.log('===插入头部' + count);
+				$('#workNews').prepend(result);
+			} else {
+				console.log('===插入底部部' + count);
+				$('#workNews').append(result);
+			}
+		}
+		mui('#workNews').on('tap', 'li', function() {
+			var id = this.getAttribute('id');
+			console.log(id);
+			mui.openWindow({
+				url: 'work-new-info.html',
+				id: 'work-new-info',
+				extras: {
+					nid: id //扩展参数
+				}
+			})
+		});
+
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				netWorkStatus.check();
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				}, 1000);
+
+			});
+		} else {
+			mui.ready(function() {
+				mui('#pullrefresh').pullRefresh().pullupLoading();
+			});
+		}
+		window.addEventListener('netchange',function(){
+			netWorkStatus.check();
+		});
+	</script>
+
+</html>
